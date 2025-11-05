@@ -1,50 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube</title>
 <style>
-:root{
-  --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
-}
-body{
-  margin:0; font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .2s,color .2s;
-}
-body.dark{
-  --bg:#0f1113; --fg:#eaeaea; --card:#1f1f22;
-}
-.topbar{
-  position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:linear-gradient(90deg,var(--accent-start),var(--accent-end)); color:#fff; z-index:30;
-}
-.topbar .left{ font-weight:700; }
-.controls{ display:flex; gap:12px; align-items:center; }
-.controls label{ display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:14px; }
-.container{ max-width:1200px; margin:86px auto 40px; padding:0 16px; }
-.player-wrap{ background:var(--card); border-radius:10px; padding:12px; box-shadow:0 8px 20px rgba(0,0,0,.08); margin-bottom:18px; }
-#player{ width:100%; aspect-ratio:16/9; border-radius:8px; border:0; }
-.player-actions{ display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; }
-.btn{ background:#fff; border:0; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:700; }
-.btn:hover{ filter:brightness(.95); }
-.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
-.category{ margin:8px 0; }
-.cat-title{ font-weight:800; margin:10px 0 6px; }
-.thumb{ background:var(--card); border-radius:8px; overflow:hidden; cursor:pointer; display:flex; flex-direction:column; box-shadow:0 6px 14px rgba(0,0,0,.06); transition:transform .12s; }
-.thumb:hover{ transform:scale(1.03); }
-.thumb img{ width:100%; height:auto; display:block; aspect-ratio:16/9; object-fit:cover; }
-.thumb .t{ padding:8px; font-weight:700; font-size:13px; color:var(--fg); }
-.small-note{ font-size:13px; color:rgba(0,0,0,.55); }
-body.dark .small-note{ color:rgba(255,255,255,.65); }
-@media(max-width:600px){ .topbar{ padding:10px; } .controls label{ font-size:13px; } }
+  :root{
+    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+  }
+  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
+  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
+
+  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
+  .topbar .left{font-weight:700}
+  .controls{display:flex;gap:12px;align-items:center}
+  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
+
+  /* Player bar */
+  .player-bar{
+    position:fixed; top:56px; left:0; right:0; display:flex;
+    justify-content:center; gap:12px; padding:8px;
+    background:var(--card); z-index:25; border-bottom:1px solid rgba(0,0,0,0.1);
+  }
+
+  .container{max-width:1200px;margin:110px auto 40px;padding:0 16px} /* adjusted for topbar + player-bar */
+  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
+  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
+  .player-actions{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .btn{background:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+  .btn:hover{filter:brightness(.95)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .category{margin:8px 0}
+  .cat-title{font-weight:800;margin:10px 0 6px}
+  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
+  .thumb:hover{transform:scale(1.03)}
+  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
+  .small-note{font-size:13px;color:rgba(0,0,0,.55)}
+  body.dark .small-note{color:rgba(255,255,255,.65)}
+  @media (max-width:600px){
+    .topbar{padding:10px}
+    .controls label{font-size:13px}
+  }
 </style>
 </head>
 <body>
+
 <div class="topbar">
   <div class="left">WinTube</div>
   <div class="controls">
     <label><input type="checkbox" id="darkToggle"> Dark</label>
     <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
   </div>
+</div>
+
+<!-- Player bar with Play/Pause -->
+<div class="player-bar">
+  <button class="btn" id="play-btn">Play</button>
+  <button class="btn" id="pause-btn">Pause</button>
 </div>
 
 <main class="container">
@@ -55,32 +68,32 @@ body.dark .small-note{ color:rgba(255,255,255,.65); }
       <div class="player-actions">
         <button class="btn" id="open-btn">Open on YouTube</button>
         <button class="btn" id="copy-btn">Copy Link</button>
-        <button class="btn" id="reload-btn">Reload</button>
       </div>
     </div>
   </section>
 
-  <section id="video-list-area"></section>
+  <section id="video-list-area">
+    <!-- thumbnails injected here -->
+  </section>
 </main>
 
 <script>
-// extract video ID from URL
 function extractID(url){
   if(!url) return '';
   url = String(url).trim();
   if(!/https?:\/\//i.test(url) && url.indexOf('/')===-1) return url.split('?')[0];
   let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
   if(m && m[1]) return m[1];
-  try{
+  try {
     const u = new URL(url);
     if(u.searchParams.get('v')) return u.searchParams.get('v');
     let seg = u.pathname.split('/').filter(Boolean).pop();
     if(seg) return seg.split('?')[0];
-  }catch(e){}
+  } catch(e){}
   return url;
 }
 
-// categorized videos
+// Categorized videos
 const categorized = {
   "Other":[
     {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
@@ -92,11 +105,11 @@ const categorized = {
     {url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu", title:"Happy Birthday Windows 7 (Full)"}
   ],
   "Windows Lapis and Friends":[
-    {url:"https://youtu.be/vrOQFA88j9A?si=aubDPbzNUN2L4aw2", title:"Windows lapis and friends part 1"},
-    {url:"https://youtu.be/lUqZyfLGgRE?si=Qt5ZLjxW6CIKspcK", title:"Windows lapis and friends part 2"},
-    {url:"https://youtu.be/VG30TaK--zc?si=AzSYsVwSYGIJVkSg", title:"Windows lapis and friends part 3"},
-    {url:"https://youtu.be/nV1_SDDzzpA?si=_OR6zqynAFNa5lw5", title:"Windows lapis and friends part 4"},
-    {url:"https://youtu.be/--NK4Iuhmlk?si=-Ry0wsECriunDu4r", title:"Windows lapis and friends part 5"}
+    {url:"https://youtu.be/vrOQFA88j9A?si=aubDPbzNUN2L4aw2", title:"Windows lapis and friends part 1 - a sticky situation"},
+    {url:"https://youtu.be/lUqZyfLGgRE?si=Qt5ZLjxW6CIKspcK", title:"Windows lapis and friends portal trouble (part 2)"},
+    {url:"https://youtu.be/VG30TaK--zc?si=AzSYsVwSYGIJVkSg", title:"Windows lapis and friends trouble in Bliss (part 3)"},
+    {url:"https://youtu.be/nV1_SDDzzpA?si=_OR6zqynAFNa5lw5", title:"Windows lapis and friends Vista is back? (Part 4)"},
+    {url:"https://youtu.be/--NK4Iuhmlk?si=-Ry0wsECriunDu4r", title:"Windows lapis and friends Good bye Mojave (part 5)"}
   ],
   "TUI":[
     {url:"https://youtu.be/taRL5GOsCdM?si=UXB0sSwsKaKX2vP2", title:"TUI 1 - the start of the outbreak"}
@@ -119,56 +132,56 @@ const categorized = {
   ]
 };
 
-const flat = [];
-for(const cat in categorized){
-  categorized[cat].forEach(v=>flat.push({...v, category:cat}));
+function flattenCategories(obj){
+  const out = [];
+  for(const cat in obj){
+    obj[cat].forEach(v => out.push(Object.assign({}, v, {category:cat})));
+  }
+  return out;
 }
+let flat = flattenCategories(categorized);
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
-// shuffle
-function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const listArea = document.getElementById('video-list-area');
+const player = document.getElementById('player');
+const playerTitle = document.getElementById('player-title');
+const categorizeToggle = document.getElementById('categorizeToggle');
+const darkToggle = document.getElementById('darkToggle');
+const openBtn = document.getElementById('open-btn');
+const copyBtn = document.getElementById('copy-btn');
+const playBtn = document.getElementById('play-btn');
+const pauseBtn = document.getElementById('pause-btn');
 
-const listArea=document.getElementById('video-list-area');
-const player=document.getElementById('player');
-const playerTitle=document.getElementById('player-title');
-const categorizeToggle=document.getElementById('categorizeToggle');
-const darkToggle=document.getElementById('darkToggle');
-const openBtn=document.getElementById('open-btn');
-const copyBtn=document.getElementById('copy-btn');
-const reloadBtn=document.getElementById('reload-btn');
-
-let current=null;
+let current = null;
 
 function makeThumb(id,title,url){
-  const div=document.createElement('div');
+  const div = document.createElement('div');
   div.className='thumb';
-  const img=document.createElement('img');
-  img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.alt=title;
-  const t=document.createElement('div');
+  const img = document.createElement('img');
+  img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  img.alt = title;
+  const t = document.createElement('div');
   t.className='t';
-  t.textContent=title;
+  t.textContent = title;
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick=()=>loadToPlayer(id,title,url);
+  div.onclick=()=> loadToPlayer(id,title,url);
   return div;
-}
-
-function loadToPlayer(id,title,url){
-  current={id,title,url};
-  player.src=`https://www.youtube.com/embed/${id}?autoplay=1`;
-  playerTitle.textContent=title;
-  openBtn.onclick=()=>window.open(url,'_blank');
-  copyBtn.onclick=()=>{ navigator.clipboard.writeText(url).then(()=>alert('Link copied')); };
-  reloadBtn.onclick=()=>{ player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`; };
 }
 
 function renderCategorized(){
   listArea.innerHTML='';
   for(const cat in categorized){
-    const section=document.createElement('div'); section.className='category';
-    const h=document.createElement('div'); h.className='cat-title'; h.textContent=cat; section.appendChild(h);
+    const section=document.createElement('div');
+    section.className='category';
+    const h=document.createElement('div');
+    h.className='cat-title'; h.textContent=cat;
+    section.appendChild(h);
     const g=document.createElement('div'); g.className='grid';
-    categorized[cat].forEach(item=>{ g.appendChild(makeThumb(extractID(item.url), item.title, item.url)); });
+    categorized[cat].forEach(item=>{
+      const id=extractID(item.url);
+      g.appendChild(makeThumb(id,item.title,item.url));
+    });
     section.appendChild(g);
     listArea.appendChild(section);
   }
@@ -176,22 +189,42 @@ function renderCategorized(){
 
 function renderRandom(){
   listArea.innerHTML='';
+  const arr=shuffle(flat.slice());
   const g=document.createElement('div'); g.className='grid';
-  shuffle(flat.slice()).forEach(item=>g.appendChild(makeThumb(extractID(item.url), item.title, item.url)));
+  arr.forEach(item=>{
+    const id=extractID(item.url);
+    g.appendChild(makeThumb(id,item.title,item.url));
+  });
   listArea.appendChild(g);
 }
 
-function render(){ if(categorizeToggle.checked) renderCategorized(); else renderRandom(); }
-
-categorizeToggle.addEventListener('change', ()=>render());
-darkToggle.addEventListener('change', e=>document.body.classList.toggle('dark', e.target.checked));
-
-function init(){
-  if(flat.length){ const first=flat[0]; loadToPlayer(extractID(first.url), first.title, first.url); }
-  render();
+function loadToPlayer(id,title,url){
+  current={id,title,url};
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1`;
+  playerTitle.textContent=title;
+  openBtn.onclick=()=> window.open(url,'_blank');
+  copyBtn.onclick=()=> { navigator.clipboard && navigator.clipboard.writeText(url).then(()=>alert('Link copied')); };
 }
 
-window.wintube={render, loadToPlayer, categorized, flat};
+categorizeToggle.addEventListener('change', ()=>{ if(categorizeToggle.checked) renderCategorized(); else renderRandom(); });
+darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
+
+// Play / Pause
+let ytPlayer;
+function onYouTubeIframeAPIReady(){ ytPlayer = new YT.Player('player'); }
+let tag=document.createElement('script'); tag.src="https://www.youtube.com/iframe_api"; document.body.appendChild(tag);
+playBtn.onclick=()=> { if(ytPlayer) ytPlayer.playVideo(); };
+pauseBtn.onclick=()=> { if(ytPlayer) ytPlayer.pauseVideo(); };
+
+function init(){
+  if(flat.length){
+    const first=flat[0];
+    loadToPlayer(extractID(first.url),first.title,first.url);
+  }
+  if(categorizeToggle.checked) renderCategorized(); else renderRandom();
+}
+window.wintube={render:()=>{categorizeToggle.checked?renderCategorized():renderRandom();}, loadToPlayer, categorized, flat};
+
 init();
 </script>
 </body>
