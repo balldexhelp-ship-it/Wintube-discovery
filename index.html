@@ -2,97 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WinTube Discovery</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WinTube</title>
 <style>
-:root{
-  --bg:#ffffff;
-  --fg:#111;
-  --card:#f1f1f1;
-  --accent-start:#000A61;
-  --accent-end:#00129B;
-}
-body{margin:0;font-family:Arial,sans-serif; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
-body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-.topbar{
-  position:fixed;
-  top:0; left:0; right:0;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 18px;
-  background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
-  color:#fff; z-index:30;
-}
-.topbar .left{font-weight:700;font-size:18px;}
-.controls{display:flex;gap:12px;align-items:center;}
-.controls label{display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;font-size:14px;}
-.container{max-width:1200px;margin:86px auto 40px;padding:0 16px;}
-.player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:12px;}
-#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0;}
-.video-info{display:flex;align-items:center;justify-content:space-between;margin-top:6px;flex-wrap:wrap;}
-.video-info-left{display:flex;align-items:center;gap:12px;}
-.video-info-left img{width:48px;height:48px;border-radius:50%;object-fit:cover;}
-.video-title{font-weight:700;font-size:15px;}
-.video-meta{font-size:14px;color:rgba(0,0,0,.6);}
-body.dark .video-meta{color:rgba(255,255,255,.65);}
-#video-description{margin-top:6px;font-size:14px;line-height:1.4;color:rgba(0,0,0,.7);}
-body.dark #video-description{color:rgba(255,255,255,.75);}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
-.category{margin:8px 0;}
-.cat-title{font-weight:800;margin:10px 0 6px;}
-.thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s;}
-.thumb:hover{transform:scale(1.03);}
-.thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover;}
-.thumb .t{padding:6px;font-weight:700;font-size:13px;color:var(--fg);}
-body.dark .thumb .t{color:var(--fg);}
-@media(max-width:600px){.topbar{padding:10px;}.controls label{font-size:13px;}}
+  body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111;transition:background .2s,color .2s;}
+  body.dark{background:#121212;color:#eee;}
+  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,#000A61,#00129B);color:#fff;z-index:30;}
+  .controls{display:flex;gap:12px;align-items:center;}
+  .controls label{display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;font-size:14px;}
+  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px;}
+  .player-wrap{background:#f1f1f1;border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px;}
+  body.dark .player-wrap{background:#1f1f22;}
+  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0;}
+  .player-info{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:12px;flex-wrap:wrap;}
+  .channel-profile{display:flex;align-items:center;gap:10px;}
+  .channel-profile img{border-radius:50%;width:40px;height:40px;object-fit:cover;}
+  .channel-name{font-weight:700;}
+  .video-views{font-size:14px;color:#555;}
+  body.dark .video-views{color:#ccc;}
+  .video-desc{margin-top:6px;font-size:14px;color:#333;}
+  body.dark .video-desc{color:#ddd;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+  .category{margin:8px 0;}
+  .cat-title{font-weight:800;margin:10px 0 6px;}
+  .thumb{background:#f1f1f1;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s;}
+  body.dark .thumb{background:#2a2a2a;}
+  .thumb:hover{transform:scale(1.03);}
+  .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;}
+  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:#111;}
+  body.dark .thumb .t{color:#eee;}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="left">WinTube Discovery</div>
+  <div>WinTube</div>
   <div class="controls">
-    <label><input type="checkbox" id="darkToggle"> Dark Mode</label>
-    <label><input type="checkbox" id="categorizeToggle" checked> Categorized</label>
+    <label><input type="checkbox" id="darkToggle"> Dark</label>
+    <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
   </div>
 </div>
 
 <main class="container">
   <section class="player-wrap">
-    <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="video-info">
-      <div class="video-info-left">
-        <img id="channel-profile" src="" alt="Channel">
-        <div>
-          <div class="video-title" id="player-title">No video selected</div>
-          <div class="video-meta" id="channel-name">Channel Name</div>
-        </div>
+    <iframe id="player" src="" allowfullscreen></iframe>
+    <div class="player-info">
+      <div class="channel-profile">
+        <img id="channel-img" src="" alt="Profile">
+        <span class="channel-name" id="channel-name">Channel Name</span>
       </div>
-      <div class="video-meta" id="view-count">0 views</div>
+      <span class="video-views" id="video-views">0 views</span>
     </div>
-    <div id="video-description">Description will appear here</div>
+    <div class="video-desc" id="video-desc">Video description will appear here.</div>
   </section>
 
   <section id="video-list-area"></section>
 </main>
 
 <script>
-const API_KEY = 'AIzaSyBZypWuC7Zg12KHQBLHeiZ-u9PBIqqMHJg'; // your YouTube API key
-
-function extractID(url){
-  if(!url) return '';
-  url = String(url).trim();
-  if(!/https?:\/\//i.test(url) && url.indexOf('/')===-1) return url.split('?')[0];
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  if(m && m[1]) return m[1];
-  try {
-    const u = new URL(url);
-    if(u.searchParams.get('v')) return u.searchParams.get('v');
-    let seg = u.pathname.split('/').filter(Boolean).pop();
-    if(seg) return seg.split('?')[0];
-  } catch(e){}
-  return url;
-}
+const API_KEY = 'YOUR_API_KEY';
 
 const categorized = {
   "Other":[
@@ -132,40 +100,68 @@ const categorized = {
   ]
 };
 
-function flattenCategories(obj){
-  const out=[];
-  for(const cat in obj){ obj[cat].forEach(v=>out.push({...v,category:cat})); }
-  return out;
+/* Utility */
+function extractID(url){try{return (new URL(url)).searchParams.get('v') || url.split('/').pop();}catch(e){return url;}}
+
+/* Flatten for random mode */
+let flat = [];
+for(const k in categorized) categorized[k].forEach(v=>flat.push({...v,category:k}));
+
+const listArea = document.getElementById('video-list-area');
+const player = document.getElementById('player');
+const channelImg = document.getElementById('channel-img');
+const channelName = document.getElementById('channel-name');
+const videoViews = document.getElementById('video-views');
+const videoDesc = document.getElementById('video-desc');
+const categorizeToggle = document.getElementById('categorizeToggle');
+const darkToggle = document.getElementById('darkToggle');
+
+let current = null;
+
+async function fetchVideoData(id){
+  const videoUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`;
+  const resp = await fetch(videoUrl);
+  const data = await resp.json();
+  if(!data.items || !data.items[0]) return null;
+  const item = data.items[0];
+  const channelId = item.snippet.channelId;
+  const channelUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${API_KEY}`;
+  const cResp = await fetch(channelUrl);
+  const cData = await cResp.json();
+  const channelProfile = cData.items[0].snippet.thumbnails.default.url;
+  return {
+    videoId:id,
+    title:item.snippet.title,
+    description:item.snippet.description,
+    views:item.statistics.viewCount,
+    channelName:item.snippet.channelTitle,
+    channelProfile
+  };
 }
-let flat=flattenCategories(categorized);
-
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
-
-const listArea=document.getElementById('video-list-area');
-const player=document.getElementById('player');
-const playerTitle=document.getElementById('player-title');
-const channelProfile=document.getElementById('channel-profile');
-const channelName=document.getElementById('channel-name');
-const viewCount=document.getElementById('view-count');
-const videoDescription=document.getElementById('video-description');
-const categorizeToggle=document.getElementById('categorizeToggle');
-const darkToggle=document.getElementById('darkToggle');
-
-let current=null;
 
 function makeThumb(id,title,url){
-  const div=document.createElement('div');
+  const div = document.createElement('div');
   div.className='thumb';
-  const img=document.createElement('img');
+  const img = document.createElement('img');
   img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   img.alt=title;
-  const t=document.createElement('div');
+  const t = document.createElement('div');
   t.className='t';
-  t.textContent=title;
-  div.appendChild(img);
-  div.appendChild(t);
-  div.onclick=()=> loadToPlayer(id,title,url);
+  t.textContent = title;
+  div.appendChild(img); div.appendChild(t);
+  div.onclick=()=>loadVideo(id);
   return div;
+}
+
+async function loadVideo(id){
+  const data = await fetchVideoData(id);
+  if(!data) return;
+  current = data;
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1`;
+  channelImg.src = data.channelProfile;
+  channelName.textContent = data.channelName;
+  videoViews.textContent = `${Number(data.views).toLocaleString()} views`;
+  videoDesc.textContent = data.description;
 }
 
 function renderCategorized(){
@@ -175,47 +171,24 @@ function renderCategorized(){
     const h=document.createElement('div');h.className='cat-title';h.textContent=cat;
     section.appendChild(h);
     const g=document.createElement('div');g.className='grid';
-    categorized[cat].forEach(item=>{g.appendChild(makeThumb(extractID(item.url),item.title,item.url));});
-    section.appendChild(g);listArea.appendChild(section);
+    categorized[cat].forEach(v=>g.appendChild(makeThumb(extractID(v.url),v.title,v.url)));
+    section.appendChild(g);
+    listArea.appendChild(section);
   }
 }
 
 function renderRandom(){
   listArea.innerHTML='';
-  const arr=shuffle(flat.slice());
+  const arr=[...flat]; for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
   const g=document.createElement('div');g.className='grid';
-  arr.forEach(item=>{g.appendChild(makeThumb(extractID(item.url),item.title,item.url));});
+  arr.forEach(v=>g.appendChild(makeThumb(extractID(v.url),v.title,v.url)));
   listArea.appendChild(g);
 }
 
-async function loadToPlayer(id,title,url){
-  current={id,title,url};
-  player.src=`https://www.youtube.com/embed/${id}?autoplay=1`;
-  playerTitle.textContent=title;
-  // Fetch video details from YouTube API
-  try{
-    const vidID=extractID(url);
-    const res=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${vidID}&key=${API_KEY}`);
-    const data=await res.json();
-    if(data.items && data.items.length){
-      const vid=data.items[0];
-      channelProfile.src=vid.snippet.thumbnails.default.url;
-      channelName.textContent=vid.snippet.channelTitle;
-      viewCount.textContent=vid.statistics.viewCount+' views';
-      videoDescription.textContent=vid.snippet.description;
-    } else {channelProfile.src=''; channelName.textContent=''; viewCount.textContent='0 views'; videoDescription.textContent='';}
-  } catch(e){console.error(e);}
-}
-
-function render(){categorizeToggle.checked?renderCategorized():renderRandom();}
-categorizeToggle.addEventListener('change',()=>render());
+categorizeToggle.addEventListener('change',()=>{if(categorizeToggle.checked) renderCategorized(); else renderRandom();});
 darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
 
-function init(){
-  if(flat.length) loadToPlayer(extractID(flat[0].url),flat[0].title,flat[0].url);
-  render();
-}
-
+function init(){if(flat.length) loadVideo(extractID(flat[0].url)); if(categorizeToggle.checked) renderCategorized(); else renderRandom();}
 init();
 </script>
 </body>
