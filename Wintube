@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WinTube Desktop — All Videos</title>
+<style>
+  body { margin:0; font-family: Arial,sans-serif; background:white; color:#000; transition: background 0.3s,color 0.3s; }
+  body.dark { background:#121212; color:#eee; }
+
+  .top-bar { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:linear-gradient(to right,#000A61,#00129B); color:white; font-weight:bold; position:fixed; width:100%; top:0; z-index:100; }
+  .top-bar label { cursor:pointer; }
+  
+  #video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; padding:100px 20px 20px 20px; max-width:1200px; margin:auto; }
+  .video-card { background:#f1f1f1; border-radius:8px; overflow:hidden; cursor:pointer; transition: transform 0.2s; display:flex; flex-direction:column; }
+  body.dark .video-card { background:#2a2a2a; }
+  .video-card:hover { transform:scale(1.03); }
+  .video-card img { width:100%; aspect-ratio:16/9; object-fit:cover; }
+  .video-card .title { padding:8px; font-size:14px; font-weight:bold; }
+  body.dark .video-card .title { color:#eee; }
+
+  .popup { display:none; position:fixed; top:120px; left:50%; transform:translateX(-50%) scale(0.9); background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.4); z-index:1000; padding:15px; overflow:auto; opacity:0; transition: opacity 0.3s ease, transform 0.3s ease; width:60vw; max-width:900px; min-width:300px; max-height:80vh; }
+  body.dark .popup { background:#2a2a2a; color:#eee; }
+  .popup.show { opacity:1; transform:translateX(-50%) scale(1); }
+  .popup button.close-popup { background:#f00; color:#fff; border:none; border-radius:4px; padding:6px 12px; cursor:pointer; font-weight:bold; display:block; margin:20px auto 0 auto; }
+  .popup iframe { width:100%; border:none; border-radius:6px; margin-bottom:10px; aspect-ratio:16/9; }
+
+  .watch-btn, .reload-btn, .copy-btn { display:inline-block; background:white; color:black; border:none; border-radius:6px; padding:8px 14px; font-weight:bold; cursor:pointer; margin-right:5px; transition:background 0.3s; }
+  .watch-btn:hover, .reload-btn:hover, .copy-btn:hover { background:#ddd; }
+  .link-field { width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin:10px 0; font-size:14px; }
+
+  @media (max-width:768px) { .popup { width:90vw; min-width:0; max-height:85vh; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>WinTube Desktop</div>
+  <div>
+    <label><input type="checkbox" id="darkToggle"> Dark Mode 🌙</label>
+  </div>
+</div>
+
+<div class="popup" id="video-popup">
+  <iframe id="popup-iframe" src="" allowfullscreen></iframe>
+  <h2 id="popup-title"></h2>
+  <input type="text" id="video-link" class="link-field" placeholder="Paste YouTube link here">
+  <div>
+    <button id="popup-link" class="watch-btn">Watch on YouTube</button>
+    <button id="reload-btn" class="reload-btn">Reload</button>
+    <button id="copy-link-btn" class="copy-btn">Copy Link</button>
+  </div>
+  <button class="close-popup" onclick="closePopup('video-popup')">Close</button>
+</div>
+
+<div id="video-grid"></div>
+
+<script>
+const videos = [
+  {id:'Y341HIbHzGs', title:'Twan 4:3'},
+  {id:'OLBVr0L7zGo', title:'TWA radio frutiger areo'},
+  {id:'cM_nJw4BT6Y', title:'Video 3'},
+  {id:'38UahavvNtw', title:'Video 4'},
+  {id:'kfUuJ3a8R-k', title:'Video 5'},
+  {id:'XYeG8JHZitU', title:'Video 6'},
+  {id:'vrOQFA88j9A', title:'Video 7'},
+  {id:'lUqZyfLGgRE', title:'Video 8'},
+  {id:'VG30TaK–zc', title:'Video 9'},
+  {id:'nV1_SDDzzpA', title:'Video 10'},
+  {id:'–NK4Iuhmlk', title:'Video 11'},
+  {id:'taRL5GOsCdM', title:'Video 12'},
+  {id:'0nktRtXSwFQ', title:'Video 13'},
+  {id:'icNhbX9r3ZE', title:'Video 14'},
+  {id:'I15EdtFU6aE', title:'Video 15'},
+  {id:'yWGWml5YYek', title:'Video 16'},
+  {id:'iyQmF9mtOVs', title:'Video 17'},
+  {id:'I6JHsnqc69g', title:'Video 18'},
+  {id:'j_IC4bgDjGg', title:'Video 19'},
+  {id:'0zaUXku15mE', title:'Video 20'},
+  {id:'qX50c3wnW6M', title:'Video 21'},
+  {id:'jPTauwoWp6U', title:'Video 22'}
+];
+
+function createVideoCard(video) {
+  const div = document.createElement('div');
+  div.className = 'video-card';
+  div.innerHTML = `<img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg"><div class="title">${video.title}</div>`;
+  div.onclick = () => openVideo(video);
+  return div;
+}
+
+function renderVideos() {
+  const container = document.getElementById('video-grid');
+  container.innerHTML = '';
+  videos.forEach(v => container.appendChild(createVideoCard(v)));
+}
+
+function openVideo(video) {
+  const popup = document.getElementById('video-popup');
+  popup.style.display = 'block';
+  setTimeout(() => popup.classList.add('show'), 10);
+
+  const link = `https://youtu.be/${video.id}`;
+  document.getElementById('popup-iframe').src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+  document.getElementById('popup-title').textContent = video.title;
+  const field = document.getElementById('video-link');
+  field.value = link;
+
+  document.getElementById('popup-link').onclick = () => window.open(field.value, '_blank');
+}
+
+document.getElementById('reload-btn').onclick = () => {
+  const iframe = document.getElementById('popup-iframe');
+  const field = document.getElementById('video-link');
+  let id = extractID(field.value);
+  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+};
+
+document.getElementById('copy-link-btn').onclick = () => {
+  const field = document.getElementById('video-link');
+  field.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+};
+
+function extractID(url) {
+  const reg = /(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([^\s&]+)/;
+  const match = url.match(reg);
+  return match ? match[1] : url;
+}
+
+function closePopup(id) {
+  const popup = document.getElementById(id);
+  popup.classList.remove('show');
+  setTimeout(() => popup.style.display = 'none', 300);
+  if(id==='video-popup') document.getElementById('popup-iframe').src='';
+}
+
+document.getElementById('darkToggle').onchange = e => document.body.classList.toggle('dark', e.target.checked);
+
+renderVideos();
+</script>
+
+</body>
+</html>
