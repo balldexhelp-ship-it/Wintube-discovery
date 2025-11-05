@@ -1,246 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube Discovery</title>
 <style>
-  :root{
-    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+  :root {
+    --aero-light-bg: rgba(255, 255, 255, 0.6);
+    --aero-dark-bg: rgba(25, 25, 25, 0.45);
+    --light-accent: #4ca3ff;
+    --dark-accent: #0078d7;
+    --light-text: #0b2e4e;
+    --dark-text: #eaeaea;
+    --blur: blur(12px);
   }
-  body{margin:0;font-family:Arial,system-ui,-apple-system;background:var(--bg);color:var(--fg);transition:background .18s,color .18s;}
-  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-  .topbar .left{font-weight:700}
-  .controls{display:flex;gap:12px;align-items:center}
-  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
-  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
-  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-  .player-info{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-  .player-info .channel-profile{display:flex;align-items:center;gap:12px}
-  .player-info img{width:40px;height:40px;border-radius:50%}
-  .player-actions{display:flex;gap:8px;align-items:center}
-  .btn{background:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
-  .btn:hover{filter:brightness(.95)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .category{margin:8px 0}
-  .cat-title{font-weight:800;margin:10px 0 6px}
-  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
-  .thumb:hover{transform:scale(1.03)}
-  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
-  .small-note{font-size:13px;color:rgba(0,0,0,.55)}
-  body.dark .small-note{color:rgba(255,255,255,.65)}
-  @media (max-width:600px){
-    .topbar{padding:10px}
-    .controls label{font-size:13px}
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #b0d8ff, #74b9ff);
+    color: var(--light-text);
+    backdrop-filter: var(--blur);
+    transition: all 0.3s ease;
+  }
+
+  body.dark {
+    background: linear-gradient(135deg, #1b1f23, #2b2f35);
+    color: var(--dark-text);
+  }
+
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-radius: 0 0 12px 12px;
+    background: var(--aero-light-bg);
+    backdrop-filter: var(--blur);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--light-text);
+  }
+
+  body.dark .topbar {
+    background: var(--aero-dark-bg);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 20px;
+    text-shadow: 0 1px 3px rgba(255,255,255,0.5);
+  }
+
+  body.dark .title {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  label {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input[type="checkbox"] {
+    accent-color: var(--light-accent);
+  }
+
+  body.dark input[type="checkbox"] {
+    accent-color: var(--dark-accent);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 90px auto 40px;
+    padding: 0 16px;
+  }
+
+  .player-wrap {
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  }
+
+  #player {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+  }
+
+  .channel-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  body.dark .channel-bar {
+    background: rgba(40,40,40,0.6);
+    color: #fff;
+  }
+
+  .channel-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .channel-info img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+
+  .player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .btn {
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(230,230,230,0.6));
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .btn:hover {
+    filter: brightness(0.95);
+  }
+
+  body.dark .btn {
+    background: linear-gradient(180deg, rgba(50,50,50,0.7), rgba(30,30,30,0.5));
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .category {
+    margin: 18px 0;
+    background: var(--aero-light-bg);
+    border-radius: 10px;
+    padding: 10px;
+    backdrop-filter: var(--blur);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  body.dark .category {
+    background: var(--aero-dark-bg);
+  }
+
+  .cat-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--light-text);
+  }
+
+  body.dark .cat-title {
+    color: var(--dark-text);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .thumb {
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(4px);
+    transition: transform 0.15s;
+  }
+
+  .thumb:hover {
+    transform: scale(1.04);
+  }
+
+  .thumb img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  .thumb .t {
+    padding: 6px 8px;
+    font-size: 13px;
+    font-weight: 600;
   }
 </style>
 </head>
+
 <body>
-
-<div class="topbar">
-  <div class="left">WinTube Discovery</div>
-  <div class="controls">
-    <label><input type="checkbox" id="darkToggle"> Dark</label>
-    <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
+  <div class="topbar">
+    <div class="title">WinTube Discovery</div>
+    <div class="controls">
+      <label><input type="checkbox" id="darkToggle"> Dark</label>
+      <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
+    </div>
   </div>
-</div>
 
-<main class="container">
-  <section class="player-wrap">
-    <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="player-info">
-      <div class="channel-profile">
-        <img id="channel-img" src="" alt="Channel">
-        <div id="channel-name">Channel Name</div>
+  <main class="container">
+    <div class="player-wrap">
+      <iframe id="player" src="" allowfullscreen></iframe>
+      <div class="channel-bar">
+        <div class="channel-info">
+          <img src="https://yt3.googleusercontent.com/ytc/AIdro_mkQn9E-ExampleChannel=s88-c-k-c0x00ffffff-no-rj" id="channel-pic" alt="Channel Profile">
+          <span id="channel-name">Channel Name</span>
+        </div>
+        <span id="view-count">0 views</span>
       </div>
-      <div class="player-actions">
-        <div id="views-count" class="small-note">0 views</div>
+      <div class="player-controls">
         <button class="btn" id="play-btn">Play</button>
         <button class="btn" id="pause-btn">Pause</button>
-        <button class="btn" id="open-btn">Open on YouTube</button>
       </div>
     </div>
-  </section>
 
-  <section id="video-list-area"></section>
-
-  <!-- Comments Section -->
-  <div style="background: linear-gradient(135deg, #a4d4f2, #6cb5e3);
-              border-radius: 18px;
-              box-shadow: 0 0 20px rgba(0,0,0,0.2), inset 0 0 10px rgba(255,255,255,0.5);
-              padding: 25px;
-              backdrop-filter: blur(8px);
-              border: 1px solid rgba(255,255,255,0.6);
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-              max-width: 900px;
-              margin: auto; margin-top:20px;">
-
-    <h2 style="text-align:center;
-               color:#0a3d62;
-               text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-               margin-bottom:10px;">
-      Wintube Comments
-    </h2>
-
-    <div style="border-radius:12px;
-                overflow:hidden;
-                box-shadow:inset 0 0 8px rgba(0,0,0,0.1);
-                margin-top:15px;">
-      <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
-      <div class="commonninja_component pid-40557765-1326-44ed-9edf-d7cbe60af652"></div>
-    </div>
-
-  </div>
-
-</main>
+    <section id="video-list-area"></section>
+  </main>
 
 <script>
-function extractID(url){
-  if(!url) return '';
-  url = String(url).trim();
-  if(!/https?:\/\//i.test(url) && url.indexOf('/')===-1) return url.split('?')[0];
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  if(m && m[1]) return m[1];
-  try{
-    const u=new URL(url);
-    if(u.searchParams.get('v')) return u.searchParams.get('v');
-    let seg = u.pathname.split('/').filter(Boolean).pop();
-    if(seg) return seg.split('?')[0];
-  } catch(e){}
-  return url;
-}
-
 const categorized = {
-  "Other":[
-    {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
-    {url:"https://youtu.be/OLBVr0L7zGo?si=LUCz0f-iS_SpmVgp", title:"TWA Radio Frutiger areo"},
-    {url:"https://youtu.be/cM_nJw4BT6Y?si=ryCRCN2UWgSZhFZo", title:"TWA Radio other"},
-    {url:"https://youtu.be/38UahavvNtw?si=Eq3HQZ5dV3gfu571", title:"Windows: The Murder part one"}
+  "Featured": [
+    {url:"https://youtu.be/Y341HIbHzGs", title:"TWAN 4:3"},
+    {url:"https://youtu.be/OLBVr0L7zGo", title:"TWA Radio Frutiger Aero"}
   ]
-  // Add other categories here as needed
 };
 
-function flattenCategories(obj){
-  const out=[];
-  for(const cat of Object.keys(obj)){
-    obj[cat].forEach(v=>out.push(Object.assign({},v,{category:cat})));
-  }
-  return out;
-}
-
-let flat = flattenCategories(categorized);
-
-function shuffle(a){
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
+function extractID(url){
+  const match = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return match ? match[1] : url;
 }
 
 const listArea = document.getElementById('video-list-area');
 const player = document.getElementById('player');
-const playerTitle = document.getElementById('player-title');
-const categorizeToggle = document.getElementById('categorizeToggle');
-const darkToggle = document.getElementById('darkToggle');
-const openBtn = document.getElementById('open-btn');
+const channelPic = document.getElementById('channel-pic');
+const channelName = document.getElementById('channel-name');
+const viewCount = document.getElementById('view-count');
 const playBtn = document.getElementById('play-btn');
 const pauseBtn = document.getElementById('pause-btn');
-const channelImg = document.getElementById('channel-img');
-const channelName = document.getElementById('channel-name');
-const viewsCount = document.getElementById('views-count');
+const darkToggle = document.getElementById('darkToggle');
+const categorizeToggle = document.getElementById('categorizeToggle');
 
-let current = null;
-
-function makeThumb(id,title,url){
-  const div = document.createElement('div');
-  div.className='thumb';
-  const img = document.createElement('img');
-  img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.alt=title;
-  const t = document.createElement('div');
-  t.className='t';
-  t.textContent=title;
-  div.appendChild(img);
-  div.appendChild(t);
-  div.onclick=()=> loadToPlayer(id,title,url);
-  return div;
-}
+let currentID = null;
 
 function renderCategorized(){
-  listArea.innerHTML='';
+  listArea.innerHTML = '';
   for(const cat of Object.keys(categorized)){
-    const section=document.createElement('div');
-    section.className='category';
-    const h=document.createElement('div');
-    h.className='cat-title';
-    h.textContent=cat;
-    section.appendChild(h);
-    const g=document.createElement('div');
-    g.className='grid';
-    categorized[cat].forEach(item=>{
-      const id=extractID(item.url);
-      const thumb=makeThumb(id,item.title,item.url);
-      g.appendChild(thumb);
+    const section = document.createElement('div');
+    section.className = 'category';
+    const h = document.createElement('div');
+    h.className = 'cat-title';
+    h.textContent = cat;
+    const g = document.createElement('div');
+    g.className = 'grid';
+    categorized[cat].forEach(v=>{
+      const id = extractID(v.url);
+      const div = document.createElement('div');
+      div.className = 'thumb';
+      const img = document.createElement('img');
+      img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+      const t = document.createElement('div');
+      t.className = 't';
+      t.textContent = v.title;
+      div.append(img,t);
+      div.onclick = ()=>loadVideo(id,v.title);
+      g.appendChild(div);
     });
-    section.appendChild(g);
+    section.append(h,g);
     listArea.appendChild(section);
   }
 }
 
-function renderRandom(){
-  listArea.innerHTML='';
-  const arr=shuffle(flat.slice());
-  const g=document.createElement('div');
-  g.className='grid';
-  arr.forEach(item=>{
-    const id=extractID(item.url);
-    const thumb=makeThumb(id,item.title,item.url);
-    g.appendChild(thumb);
-  });
-  listArea.appendChild(g);
-}
-
-function loadToPlayer(id,title,url){
-  current={id,title,url};
-  player.src=`https://www.youtube.com/embed/${id}?autoplay=1`;
-  openBtn.onclick=()=> window.open(url,'_blank');
-  playBtn.onclick=()=> player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-  pauseBtn.onclick=()=> player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-  
-  // Fetch channel info from YouTube API (replace YOUR_API_KEY with real key)
-  fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=YOUR_API_KEY`)
+function loadVideo(id,title){
+  currentID = id;
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+  channelName.textContent = "Loading...";
+  viewCount.textContent = "...";
+  fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=AIzaSyBZypWuC7Zg12KHQBLHeiZ-u9PBIqqMHJg`)
     .then(r=>r.json())
     .then(d=>{
-      if(d.items && d.items[0]){
-        const info=d.items[0];
-        channelImg.src=info.snippet.thumbnails.default.url;
-        channelName.textContent=info.snippet.channelTitle;
-        viewsCount.textContent=`${Number(info.statistics.viewCount).toLocaleString()} views`;
+      const v = d.items[0];
+      if(v){
+        channelName.textContent = v.snippet.channelTitle;
+        viewCount.textContent = v.statistics.viewCount + " views";
+        fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${v.snippet.channelId}&key=AIzaSyBZypWuC7Zg12KHQBLHeiZ-u9PBIqqMHJg`)
+          .then(r=>r.json())
+          .then(c=>{
+            const ch = c.items[0];
+            if(ch) channelPic.src = ch.snippet.thumbnails.default.url;
+          });
       }
     });
 }
 
-function render(){
-  if(categorizeToggle.checked) renderCategorized();
-  else renderRandom();
-}
+playBtn.onclick = ()=>{player.src = `https://www.youtube.com/embed/${currentID}?autoplay=1`};
+pauseBtn.onclick = ()=>{player.src = `https://www.youtube.com/embed/${currentID}`};
 
-categorizeToggle.addEventListener('change',()=>render());
-darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
+darkToggle.addEventListener('change', e=>document.body.classList.toggle('dark', e.target.checked));
 
-function init(){
-  if(flat.length){
-    const first=flat[0];
-    loadToPlayer(extractID(first.url), first.title, first.url);
-  }
-  render();
-}
-
-init();
+renderCategorized();
 </script>
 </body>
 </html>
