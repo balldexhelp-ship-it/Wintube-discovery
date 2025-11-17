@@ -8,19 +8,19 @@
   :root{
     --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
     /* 2000s MySpace theme colors */
-    --y2k-bg:#6b5b95;       /* purple-ish background */
+    --y2k-bg:#3b5998;       /* classic MySpace blue */
     --y2k-fg:#ff69b4;       /* hot pink text */
-    --y2k-card:#00ffff;     /* cyan cards */
-    --y2k-accent1:#32cd32;  /* lime green gradient start */
+    --y2k-card:#f0f8ff;     /* light card background */
+    --y2k-accent1:#00ffff;  /* cyan gradient start */
     --y2k-accent2:#ffcc00;  /* yellow gradient end */
   }
 
   body{margin:0;font-family:Arial,system-ui,-apple-system;background:var(--bg);color:var(--fg);transition:background .18s,color .18s;}
   body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  body.y2k{--bg:var(--y2k-bg);--fg:var(--y2k-fg);--card:var(--y2k-card);--accent-start:var(--y2k-accent1);--accent-end:var(--y2k-accent2);}
+  body.y2k{--bg:var(--y2k-bg);--fg:var(--y2k-fg);--card:var(--y2k-card);--accent-start:var(--y2k-accent1);--accent-end:var(--y2k-accent2);font-family:Verdana,sans-serif;font-weight:bold;}
 
   .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-  .topbar .left{font-weight:700}
+  .topbar .left img{height:32px; display:block;}
   .controls{display:flex;gap:12px;align-items:center}
   .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
   .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
@@ -43,7 +43,7 @@
 <body>
 
 <div class="topbar">
-  <div class="left">WinTube Discovery</div>
+  <div class="left"><img src="https://i.imgur.com/OwphEKv.png" alt="WinTube Logo"></div>
   <div class="controls">
     <label><input type="checkbox" id="darkToggle"> Dark</label>
     <label><input type="checkbox" id="y2kToggle"> 2000s Theme</label>
@@ -62,82 +62,7 @@
 </main>
 
 <script>
+// categorized videos (same as before)
 const categorized = {
   "Other":[
-    {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
-    {url:"https://youtu.be/OLBVr0L7zGo?si=LUCz0f-iS_SpmVgp", title:"TWA Radio Frutiger areo"},
-    {url:"https://youtu.be/cM_nJw4BT6Y?si=ryCRCN2UWgSZhFZo", title:"TWA Radio other"},
-    {url:"https://youtu.be/38UahavvNtw?si=pQGyUCvk1XZkwVh-", title:"Windows: Final Update - Part 1 - The Murder"}
-  ],
-  "Special":[
-    {url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu", title:"Happy Birthday Windows 7 (Full)"}
-  ],
-  "Windows Lapis and Friends":[
-    {url:"https://youtu.be/vrOQFA88j9A?si=aubDPbzNUN2L4aw2", title:"Windows lapis and friends part 1 - a sticky situation"},
-    {url:"https://youtu.be/lUqZyfLGgRE?si=Qt5ZLjxW6CIKspcK", title:"Windows lapis and friends portal trouble (part 2)"},
-    {url:"https://youtu.be/VG30TaK--zc?si=AzSYsVwSYGIJVkSg", title:"Windows lapis and friends trouble in Bliss (part 3)"},
-    {url:"https://youtu.be/nV1_SDDzzpA?si=_OR6zqynAFNa5lw5", title:"Windows lapis and friends Vista is back? (part 4)"},
-    {url:"https://youtu.be/--NK4Iuhmlk?si=-Ry0wsECriunDu4r", title:"Windows lapis and friends Good bye Mojave (part 5)"}
-  ],
-  "TUI":[
-    {url:"https://youtu.be/taRL5GOsCdM?si=UXB0sSwsKaKX2vP2", title:"TUI 1 - the start of the outbreak"}
-  ],
-  "ATCITA":[
-    {url:"https://youtu.be/0zaUXku15mE?si=nVxD4S9jqnrAo7pE", title:"Windows 7 and the chaos in the after life - tired (part 1)"},
-    {url:"https://youtu.be/j_IC4bgDjGg?si=QRHxe4vH7O4m3K5c", title:"Windows 7 and the chaos in the after life - the demise (part 2)"},
-    {url:"https://youtu.be/0nktRtXSwFQ?si=zGYocR4ooXVcJyVc", title:"ATCITA 3 - meeting others and the start of problems"},
-    {url:"https://youtu.be/icNhbX9r3ZE?si=gYdJdGv57clFwnza", title:"ATCITA 4 - arrival and capture"},
-    {url:"https://youtu.be/I15EdtFU6aE?si=MGhx11A2twNo45RL", title:"ATCITA 5A - the search for Vienna"},
-    {url:"https://youtu.be/yWGWml5YYek?si=y-n47o_L6Rnt0QwU", title:"ATCITA 5B - the search for Vienna 2"},
-    {url:"https://youtu.be/iyQmF9mtOVs?si=kS0lCISSeqSk6pl5", title:"ATCITA 6 - solution plan"},
-    {url:"https://youtu.be/hedyCgmgMws?si=GJjQRYOLnLd_eK7Q", title:"ATCITA 7 - the plan"},
-    {url:"https://youtu.be/I6JHsnqc69g?si=enyZzCD60o-2zpc6", title:"ATCITA 8 - back to the building"}
-  ],
-  "Windows XP’s First Days":[
-    {url:"https://youtu.be/qX50c3wnW6M?si=4czG_wfIG7j3V-5M", title:"Windows XP’s First days S1 E1"},
-    {url:"https://youtu.be/jPTauwoWp6U?si=FS0ZhoEUXBL7RZg7", title:"Windows XP’s First days S1 EP 2 - a spiraling vortex"},
-    {url:"https://youtu.be/czQb2TeX5bE?si=Vjbb7swDJ8Wehz-Y", title:"Windows XP’s First days S1 E3 - plan after storm"}
-  ]
-};
-
-function flattenCategories(obj){
-  const out = [];
-  for(const cat of Object.keys(obj)){
-    obj[cat].forEach(v => out.push(Object.assign({}, v, {category:cat})));
-  }
-  return out;
-}
-
-let flat = flattenCategories(categorized);
-
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
-
-const listArea = document.getElementById('video-list-area');
-const player = document.getElementById('player');
-const categorizeToggle = document.getElementById('categorizeToggle');
-const darkToggle = document.getElementById('darkToggle');
-const y2kToggle = document.getElementById('y2kToggle');
-
-function extractID(url){if(!url)return'';url=String(url).trim();let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);return m&&m[1]?m[1]:url;}
-
-function makeThumb(id,title){const div=document.createElement('div');div.className='thumb';const img=document.createElement('img');img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;img.alt=title;const t=document.createElement('div');t.className='t';t.textContent=title;div.appendChild(img);div.appendChild(t);div.onclick=()=>loadToPlayer(id);return div;}
-
-function renderCategorized(){listArea.innerHTML='';for(const cat of Object.keys(categorized)){const section=document.createElement('div');section.className='category';const h=document.createElement('div');h.className='cat-title';h.textContent=cat;section.appendChild(h);const g=document.createElement('div');g.className='grid';categorized[cat].forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title));});section.appendChild(g);listArea.appendChild(section);}}
-
-function renderRandom(){listArea.innerHTML='';const arr=shuffle(flat.slice());const g=document.createElement('div');g.className='grid';arr.forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title));});listArea.appendChild(g);}
-
-function render(){categorizeToggle.checked?renderCategorized():renderRandom();}
-
-function loadToPlayer(id){player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`; }
-
-function init(){if(flat.length){const first=flat[0];loadToPlayer(extractID(first.url));}render();}
-
-categorizeToggle.addEventListener('change', render);
-darkToggle.addEventListener('change', e=>document.body.classList.toggle('dark', e.target.checked));
-y2kToggle.addEventListener('change', e=>document.body.classList.toggle('y2k', e.target.checked));
-
-window.wintube={render,loadToPlayer,categorized,flat};
-init();
-</script>
-</body>
-</html>
+    {url:"https://youtu.be/Y341HI
