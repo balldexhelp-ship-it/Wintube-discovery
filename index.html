@@ -5,43 +5,141 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube Discovery</title>
 <style>
-  :root {
+  :root{
     --bg:#ffffff; 
     --fg:#111; 
     --card:#f1f1f1; 
     --accent-start:#000A61; 
     --accent-end:#00129B;
+    --retro-bg:#c0d6e4;
+    --retro-fg:#000000;
+    --retro-card:#e4f0fa;
+    --retro-accent-start:#6699cc;
+    --retro-accent-end:#336699;
   }
-  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
-  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  body.retro2000s{
-    --bg:linear-gradient(to bottom, #cce6ff,#ffffff);
-    --fg:#003366;
-    --card:#e0f0ff;
-    --accent-start:#3399ff;
-    --accent-end:#66ccff;
-    font-family:Verdana, Geneva, sans-serif;
+
+  body{
+    margin:0;
+    font-family:Arial,system-ui,-apple-system;
+    background:var(--bg);
+    color:var(--fg);
+    transition:background .18s,color .18s;
+  }
+  
+  body.dark{
+    --bg:#0f1113;
+    --fg:#eaeaea;
+    --card:#1f1f22;
+  }
+
+  body.retro{
+    --bg:var(--retro-bg);
+    --fg:var(--retro-fg);
+    --card:var(--retro-card);
+    --accent-start:var(--retro-accent-start);
+    --accent-end:var(--retro-accent-end);
+    font-family:Verdana, sans-serif;
     font-weight:bold;
   }
 
   .topbar{
-    position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between;
-    padding:12px 18px; background:linear-gradient(90deg,var(--accent-start),var(--accent-end)); color:#fff; z-index:30;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 18px;
+    background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+    color:#fff;
+    z-index:30;
   }
-  .topbar .left img{height:32px;}
-  .controls{display:flex;gap:12px;align-items:center;}
-  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px;}
-  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px;}
-  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px;}
-  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
-  .category{margin:8px 0;}
-  .cat-title{font-weight:800;margin:10px 0 6px;}
-  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s;}
-  .thumb:hover{transform:scale(1.03);}
-  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover;}
-  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg);}
-  body.dark .thumb .t, body.retro2000s .thumb .t{color:var(--fg);}
+
+  .topbar .left img{
+    height:32px;
+  }
+
+  .controls{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+
+  .controls label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+  }
+
+  .container{
+    max-width:1200px;
+    margin:86px auto 40px;
+    padding:0 16px;
+  }
+
+  .player-wrap{
+    background:var(--card);
+    padding:12px;
+    margin-bottom:18px;
+  }
+
+  #player{
+    width:100%;
+    aspect-ratio:16/9;
+    border:0;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+  }
+
+  .category{
+    margin:8px 0;
+  }
+
+  .cat-title{
+    font-weight:800;
+    margin:10px 0 6px;
+  }
+
+  .thumb{
+    background:var(--card);
+    overflow:hidden;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    transition:transform .12s;
+  }
+
+  .thumb:hover{
+    transform:scale(1.03);
+  }
+
+  .thumb img{
+    width:100%;
+    height:auto;
+    display:block;
+    aspect-ratio:16/9;
+    object-fit:cover;
+  }
+
+  .thumb .t{
+    padding:8px;
+    font-weight:700;
+    font-size:13px;
+    color:var(--fg);
+  }
+
+  body.dark .thumb .t{
+    color:var(--fg);
+  }
+
   @media (max-width:600px){
     .topbar{padding:10px;}
     .controls label{font-size:13px;}
@@ -51,10 +149,12 @@
 <body>
 
 <div class="topbar">
-  <div class="left"><img src="https://i.imgur.com/OwphEKv.png" alt="WinTube Logo"></div>
+  <div class="left">
+    <img src="https://i.imgur.com/OwphEKv.png" alt="WinTube Discovery">
+  </div>
   <div class="controls">
     <label><input type="checkbox" id="darkToggle"> Dark</label>
-    <label><input type="checkbox" id="retroToggle"> 2000s Theme</label>
+    <label><input type="checkbox" id="retroToggle"> 2000s</label>
     <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
   </div>
 </div>
@@ -77,10 +177,7 @@ const categorized = {
     {url:"https://youtu.be/cM_nJw4BT6Y?si=ryCRCN2UWgSZhFZo", title:"TWA Radio other"},
     {url:"https://youtu.be/38UahavvNtw?si=pQGyUCvk1XZkwVh-", title:"Windows: Final Update - Part 1 - The Murder"}
   ],
-  "Special":[
-    {url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu", title:"Happy Birthday Windows 7 (Full)"}
-  ]
-  // add all other videos as in your original list
+  // add other categories here...
 };
 
 function flattenCategories(obj){
@@ -162,10 +259,7 @@ function renderRandom(){
 }
 
 function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
-
-function loadToPlayer(id){
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-}
+function loadToPlayer(id){player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;}
 
 function init(){
   if(flat.length){
@@ -177,7 +271,7 @@ function init(){
 
 categorizeToggle.addEventListener('change', render);
 darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
-retroToggle.addEventListener('change', e => document.body.classList.toggle('retro2000s', e.target.checked));
+retroToggle.addEventListener('change', e => document.body.classList.toggle('retro', e.target.checked));
 
 window.wintube = {render, loadToPlayer, categorized, flat};
 init();
