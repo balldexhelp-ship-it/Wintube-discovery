@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project 2000 Header</title>
+<title>Project 2000 - Wintube</title>
 <style>
-  /* Reset basic margins */
   body, html {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f4fa;
+    transition: background-color 0.3s, color 0.3s;
   }
 
   /* Header */
@@ -16,52 +18,105 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(to right, #3b5998, #8b9dc3); /* MySpace blues */
+    background: linear-gradient(to right, #3b5998, #8b9dc3);
     padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* subtle 2000s feel */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    color: white;
   }
 
-  /* Logo */
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
   .wintube-header .logo {
     height: 50px;
     width: auto;
   }
 
-  /* Optional retro nav */
-  .nav-links {
+  .wintube-header .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  /* Categories */
+  .categories {
     display: flex;
-    gap: 15px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
   }
 
-  .nav-links a {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    transition: background 0.3s;
+  .category {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: white;
+    border: 2px solid #8b9dc3;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
   }
 
-  .nav-links a:hover {
-    background-color: rgba(255,255,255,0.3); /* subtle hover glow */
+  .category:hover {
+    background-color: #e6f0fa;
+  }
+
+  .category input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  /* Dark mode */
+  .dark-mode {
+    background-color: #111;
+    color: #eee;
+  }
+
+  .dark-mode .category {
+    background-color: #222;
+    border-color: #555;
+  }
+
+  .dark-mode .category:hover {
+    background-color: #333;
   }
 </style>
 </head>
 <body>
 
 <header class="wintube-header">
-  <!-- Logo -->
-  <img src="https://i.imgur.com/OwphEKv.png" alt="Wintube Logo" class="logo">
-
-  <!-- Optional retro nav links -->
-  <nav class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">Videos</a>
-    <a href="#">Discover</a>
-    <a href="#">Contact</a>
-  </nav>
+  <div class="logo-container">
+    <img src="https://i.imgur.com/OwphEKv.png" alt="Wintube Logo" class="logo">
+    <span class="title">WinTube</span>
+  </div>
+  <button id="darkModeBtn">Toggle Dark Mode</button>
 </header>
+
+<main class="categories">
+  <label class="category">
+    <input type="checkbox"> Category 1
+  </label>
+  <label class="category">
+    <input type="checkbox"> Category 2
+  </label>
+  <label class="category">
+    <input type="checkbox"> Category 3
+  </label>
+  <label class="category">
+    <input type="checkbox"> Category 4
+  </label>
+</main>
+
+<script>
+  const darkBtn = document.getElementById('darkModeBtn');
+  darkBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+  });
+</script>
 
 </body>
 </html>
