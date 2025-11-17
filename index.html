@@ -17,14 +17,6 @@
   .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
   .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
   #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-  .channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
-  .channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
-  .channel-info{flex:1;display:flex;flex-direction:column;}
-  .channel-name{font-weight:700;font-size:14px;}
-  .video-views{font-size:12px;color:rgba(0,0,0,.6);}
-  .video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
-  body.dark .video-views{color:rgba(255,255,255,.6);}
-  body.dark .video-desc{color:rgba(255,255,255,.8);}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
   .category{margin:8px 0}
   .cat-title{font-weight:800;margin:10px 0 6px}
@@ -52,14 +44,6 @@
 <main class="container">
   <section class="player-wrap">
     <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="channel-bar">
-      <img id="channelProfile" src="" alt="Profile">
-      <div class="channel-info">
-        <div class="channel-name" id="channelName">No video selected</div>
-        <div class="video-views" id="viewsCount"></div>
-        <div class="video-desc" id="videoDesc"></div>
-      </div>
-    </div>
   </section>
 
   <section id="video-list-area">
@@ -68,23 +52,6 @@
 </main>
 
 <script>
-const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA'; // your real key
-
-function extractID(url){
-  if(!url) return '';
-  url = String(url).trim();
-  if(!/https?:\/\//i.test(url) && url.indexOf('/')===-1) return url.split('?')[0];
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  if(m && m[1]) return m[1];
-  try {
-    const u = new URL(url);
-    if(u.searchParams.get('v')) return u.searchParams.get('v');
-    let seg = u.pathname.split('/').filter(Boolean).pop();
-    if(seg) return seg.split('?')[0];
-  } catch(e){}
-  return url;
-}
-
 const categorized = {
   "Other":[
     {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
@@ -143,16 +110,17 @@ function shuffle(a){
 
 const listArea = document.getElementById('video-list-area');
 const player = document.getElementById('player');
-const channelProfile = document.getElementById('channelProfile');
-const channelName = document.getElementById('channelName');
-const viewsCount = document.getElementById('viewsCount');
-const videoDesc = document.getElementById('videoDesc');
 const categorizeToggle = document.getElementById('categorizeToggle');
 const darkToggle = document.getElementById('darkToggle');
 
-let current = null;
+function extractID(url){
+  if(!url) return '';
+  url = String(url).trim();
+  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
+  return m && m[1] ? m[1] : url;
+}
 
-function makeThumb(id,title,url){
+function makeThumb(id,title){
   const div = document.createElement('div');
   div.className = 'thumb';
   const img = document.createElement('img');
@@ -163,7 +131,7 @@ function makeThumb(id,title,url){
   t.textContent = title;
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick = ()=> loadToPlayer(id,title,url);
+  div.onclick = ()=> loadToPlayer(id);
   return div;
 }
 
@@ -180,8 +148,7 @@ function renderCategorized(){
     g.className = 'grid';
     categorized[cat].forEach(item=>{
       const id = extractID(item.url);
-      const thumb = makeThumb(id,item.title,item.url);
-      g.appendChild(thumb);
+      g.appendChild(makeThumb(id,item.title));
     });
     section.appendChild(g);
     listArea.appendChild(section);
@@ -195,65 +162,31 @@ function renderRandom(){
   g.className = 'grid';
   arr.forEach(item=>{
     const id = extractID(item.url);
-    const thumb = makeThumb(id,item.title,item.url);
-    g.appendChild(thumb);
+    g.appendChild(makeThumb(id,item.title));
   });
   listArea.appendChild(g);
 }
 
-categorizeToggle.addEventListener('change', ()=> render());
-darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
-
-async function loadToPlayer(id,title,url){
-  current = {id,title,url};
-
-  channelName.textContent = title;
-  channelProfile.src = '';
-  viewsCount.textContent = '';
-  videoDesc.textContent = 'Loading info...';
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-
-  try{
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
-    const data = await res.json();
-    if(data.items && data.items.length){
-      const video = data.items[0];
-      channelName.textContent = video.snippet.channelTitle;
-      videoDesc.textContent = video.snippet.description;
-      viewsCount.textContent = parseInt(video.statistics.viewCount).toLocaleString() + ' views';
-
-      const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
-      const chData = await chRes.json();
-      if(chData.items && chData.items.length){
-        channelProfile.src = chData.items[0].snippet.thumbnails.default.url;
-      }
-    } else {
-      channelName.textContent = 'Unknown channel';
-      videoDesc.textContent = '';
-      viewsCount.textContent = '';
-      channelProfile.src = '';
-    }
-  } catch(e){
-    console.error(e);
-    channelName.textContent = 'Error loading info';
-    videoDesc.textContent = '';
-    viewsCount.textContent = '';
-    channelProfile.src = '';
-  }
-}
-
 function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
+
+function loadToPlayer(id){
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+}
 
 function init(){
   if(flat.length){
     const first = flat[0];
-    loadToPlayer(extractID(first.url), first.title, first.url);
+    loadToPlayer(extractID(first.url));
   }
   render();
 }
 
+categorizeToggle.addEventListener('change', render);
+darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
+
 window.wintube = {render, loadToPlayer, categorized, flat};
 init();
 </script>
+
 </body>
 </html>
