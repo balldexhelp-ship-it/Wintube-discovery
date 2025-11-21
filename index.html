@@ -62,8 +62,7 @@ body.dark .thumb .t{color:var(--fg);}
     </div>
   </section>
 
-  <section id="video-list-area">
-  </section>
+  <section id="video-list-area"></section>
 </main>
 
 <script>
@@ -148,94 +147,43 @@ function makeThumb(id, title, url){
   div.className = 'thumb';
   const img = document.createElement('img');
   img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.onerror = () => {
-    img.src = `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
-    img.onerror = () => {
-      img.src = `https://i.ytimg.com/vi/${id}/default.jpg`;
-      img.onerror = () => { img.src='https://via.placeholder.com/320x180?text=No+Thumbnail'; }
-    }
-  };
-  const t = document.createElement('div');
-  t.className = 't';
-  t.textContent = title;
-  div.appendChild(img);
-  div.appendChild(t);
-  div.onclick = () => loadToPlayer(id, title, url);
+  img.onerror = () => { img.src=`https://i.ytimg.com/vi/${id}/mqdefault.jpg`; img.onerror=()=>{img.src=`https://i.ytimg.com/vi/${id}/default.jpg`; img.onerror=()=>{img.src='https://via.placeholder.com/320x180?text=No+Thumbnail';}};}
+  const t = document.createElement('div'); t.className='t'; t.textContent=title;
+  div.appendChild(img); div.appendChild(t);
+  div.onclick=()=>loadToPlayer(id,title,url);
   return div;
 }
 
-function renderCategorized(){
-  listArea.innerHTML = '';
-  for(const cat of Object.keys(categorized)){
-    const section = document.createElement('div');
-    section.className = 'category';
-    const h = document.createElement('div');
-    h.className = 'cat-title';
-    h.textContent = cat;
-    section.appendChild(h);
-    const g = document.createElement('div');
-    g.className = 'grid';
-    categorized[cat].forEach(item=>{
-      const id = extractID(item.url);
-      g.appendChild(makeThumb(id,item.title,item.url));
-    });
-    section.appendChild(g);
-    listArea.appendChild(section);
-  }
-}
+function renderCategorized(){listArea.innerHTML='';for(const cat of Object.keys(categorized)){const section=document.createElement('div');section.className='category';const h=document.createElement('div');h.className='cat-title';h.textContent=cat;section.appendChild(h);const g=document.createElement('div');g.className='grid';categorized[cat].forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,item.url));});section.appendChild(g);listArea.appendChild(section);}}
 
-function renderRandom(){
-  listArea.innerHTML = '';
-  const arr = shuffle(flat.slice());
-  const g = document.createElement('div');
-  g.className = 'grid';
-  arr.forEach(item=>{
-    const id = extractID(item.url);
-    g.appendChild(makeThumb(id,item.title,item.url));
-  });
-  listArea.appendChild(g);
-}
+function renderRandom(){listArea.innerHTML='';const arr=shuffle(flat.slice());const g=document.createElement('div');g.className='grid';arr.forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,item.url));});listArea.appendChild(g);}
 
-categorizeToggle.addEventListener('change', render);
-darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
+categorizeToggle.addEventListener('change',render);
+darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
 
-async function loadToPlayer(id, title, url){
-  channelName.textContent = 'Loading...';
-  channelProfile.src = '';
-  viewsCount.textContent = '';
-  videoDesc.textContent = 'Loading info...';
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+async function loadToPlayer(id,title,url){
+  channelName.textContent='Loading...'; channelProfile.src=''; viewsCount.textContent=''; videoDesc.textContent='Loading info...';
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
   try{
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
-    const data = await res.json();
+    const res=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
+    const data=await res.json();
     if(data.items && data.items.length){
-      const video = data.items[0];
-      channelName.textContent = video.snippet.channelTitle;
-      videoDesc.textContent = video.snippet.description;
-      viewsCount.textContent = parseInt(video.statistics.viewCount).toLocaleString() + ' views';
-      const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
-      const chData = await chRes.json();
-      if(chData.items && chData.items.length) channelProfile.src = chData.items[0].snippet.thumbnails.default.url;
-    } else {
-      channelName.textContent='Unknown channel'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';
-    }
-  }catch(e){
-    console.error(e);
-    channelName.textContent='Error loading info'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';
-  }
+      const video=data.items[0];
+      channelName.textContent=video.snippet.channelTitle;
+      videoDesc.textContent=video.snippet.description;
+      viewsCount.textContent=parseInt(video.statistics.viewCount).toLocaleString()+' views';
+      const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
+      const chData=await chRes.json();
+      if(chData.items && chData.items.length) channelProfile.src=chData.items[0].snippet.thumbnails.default.url;
+    } else {channelName.textContent='Unknown channel'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';}
+  }catch(e){console.error(e);channelName.textContent='Error loading info'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';}
 }
 
 function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
 
-function init(){
-  if(flat.length){
-    const first = flat[0];
-    loadToPlayer(extractID(first.url), first.title, first.url);
-  }
-  render();
-}
+function init(){if(flat.length){const first=flat[0];loadToPlayer(extractID(first.url),first.title,first.url);} render();}
 
-window.wintube = {render, loadToPlayer, categorized, flat};
+window.wintube={render,loadToPlayer,categorized,flat};
 init();
 </script>
 </body>
