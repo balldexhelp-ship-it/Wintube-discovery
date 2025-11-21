@@ -51,7 +51,7 @@
 
 <main class="container">
   <section class="player-wrap">
-    <iframe id="player" src="about:blank?v=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <div class="channel-bar">
       <img id="channelProfile" src="" alt="Profile">
       <div class="channel-info">
@@ -66,13 +66,21 @@
 </main>
 
 <script>
-const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA';
+const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA'; // your real key
 
 function extractID(url){
   if(!url) return '';
   url = String(url).trim();
+  if(!/https?:\/\//i.test(url) && url.indexOf('/')===-1) return url.split('?')[0];
   let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  return m && m[1] ? m[1] : url;
+  if(m && m[1]) return m[1];
+  try {
+    const u = new URL(url);
+    if(u.searchParams.get('v')) return u.searchParams.get('v');
+    let seg = u.pathname.split('/').filter(Boolean).pop();
+    if(seg) return seg.split('?')[0];
+  } catch(e){}
+  return url;
 }
 
 const categorized = {
@@ -142,18 +150,26 @@ const darkToggle = document.getElementById('darkToggle');
 
 let current = null;
 
-function makeThumb(id,title,url){
+// fixed thumbnails with cache-busting and fallback
+function makeThumb(id, title, url){
   const div = document.createElement('div');
   div.className = 'thumb';
+  
   const img = document.createElement('img');
   img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg?v=${Date.now()}`;
   img.alt = title;
+  img.onerror = () => {
+    img.src = 'https://via.placeholder.com/320x180?text=No+Thumbnail';
+  };
+
   const t = document.createElement('div');
   t.className = 't';
   t.textContent = title;
+
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick = ()=> loadToPlayer(id,title,url);
+  div.onclick = () => loadToPlayer(id, title, url);
+
   return div;
 }
 
@@ -170,7 +186,8 @@ function renderCategorized(){
     g.className = 'grid';
     categorized[cat].forEach(item=>{
       const id = extractID(item.url);
-      g.appendChild(makeThumb(id,item.title,item.url));
+      const thumb = makeThumb(id,item.title,item.url);
+      g.appendChild(thumb);
     });
     section.appendChild(g);
     listArea.appendChild(section);
@@ -184,7 +201,8 @@ function renderRandom(){
   g.className = 'grid';
   arr.forEach(item=>{
     const id = extractID(item.url);
-    g.appendChild(makeThumb(id,item.title,item.url));
+    const thumb = makeThumb(id,item.title,item.url);
+    g.appendChild(thumb);
   });
   listArea.appendChild(g);
 }
@@ -199,7 +217,7 @@ async function loadToPlayer(id,title,url){
   channelProfile.src = '';
   viewsCount.textContent = '';
   videoDesc.textContent = 'Loading info...';
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&v=${Date.now()}`;
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
 
   try{
     const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
