@@ -5,42 +5,36 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube Discovery</title>
 <style>
-  :root{
-    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
-  }
-  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
-  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  body.blossom{
-    --bg:#ffeef2; --fg:#4b2c2c; --card:#fff0f5;
-    --accent-start:#ffb6c1; --accent-end:#ff69b4;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/31/Cherry_Blossom_Viewing_at_Mimeguri_by_Kitagawa_Utamaro%2C_1799.JPG');
-    background-size: cover; background-position: center;
-  }
-
-  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-  .topbar .left{font-weight:700}
-  .controls{display:flex;gap:12px;align-items:center}
-  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
-  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
-  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-  .channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
-  .channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
-  .channel-info{flex:1;display:flex;flex-direction:column;}
-  .channel-name{font-weight:700;font-size:14px;}
-  .video-views{font-size:12px;color:rgba(0,0,0,.6);}
-  .video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
-  body.dark .video-views, body.blossom .video-views{color:rgba(255,255,255,.6);}
-  body.dark .video-desc, body.blossom .video-desc{color:rgba(255,255,255,.8);}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .category{margin:8px 0}
-  .cat-title{font-weight:800;margin:10px 0 6px}
-  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
-  .thumb:hover{transform:scale(1.03)}
-  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
-  body.dark .thumb .t, body.blossom .thumb .t{color:var(--fg);}
-  @media (max-width:600px){.topbar{padding:10px}.controls label{font-size:13px}}
+:root{
+  --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+}
+body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
+body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
+body.blossom{--bg:#ffeef2;--fg:#4b2c2c;--card:#fff0f5;--accent-start:#ffb6c1;--accent-end:#ff69b4;}
+.topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
+.topbar .left{font-weight:700}
+.controls{display:flex;gap:12px;align-items:center}
+.controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
+.container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
+.player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
+#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
+.channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
+.channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
+.channel-info{flex:1;display:flex;flex-direction:column;}
+.channel-name{font-weight:700;font-size:14px;}
+.video-views{font-size:12px;color:rgba(0,0,0,.6);}
+.video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
+body.dark .video-views,body.blossom .video-views{color:rgba(255,255,255,.6);}
+body.dark .video-desc,body.blossom .video-desc{color:rgba(255,255,255,.8);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.category{margin:8px 0}
+.cat-title{font-weight:800;margin:10px 0 6px}
+.thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
+.thumb:hover{transform:scale(1.03)}
+.thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+.thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
+body.dark .thumb .t,body.blossom .thumb .t{color:var(--fg);}
+@media(max-width:600px){.topbar{padding:10px}.controls label{font-size:13px}}
 </style>
 </head>
 <body>
@@ -71,11 +65,16 @@
 </main>
 
 <script>
-const API_KEY = 'YOUR_YOUTUBE_API_KEY_HERE';
-const categorized = {"Other":[{url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol",title:"TWAN 4:3"}]};
+const API_KEY='YOUR_YOUTUBE_API_KEY_HERE';
+const categorized={
+"Other":[{url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol",title:"TWAN 4:3"}],
+"Special":[{url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu",title:"Happy Birthday Windows 7 (Full)"}]
+};
+
 function extractID(url){let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);return m&&m[1]?m[1]:url;}
-let flat = Object.keys(categorized).flatMap(cat=>categorized[cat].map(v=>Object.assign({},v,{category:cat})));
+let flat=Object.keys(categorized).flatMap(cat=>categorized[cat].map(v=>Object.assign({},v,{category:cat})));
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
+
 const listArea=document.getElementById('video-list-area');
 const player=document.getElementById('player');
 const channelProfile=document.getElementById('channelProfile');
@@ -95,10 +94,35 @@ function renderRandom(){listArea.innerHTML='';const arr=shuffle(flat.slice());co
 categorizeToggle.addEventListener('change',()=>render());
 
 [defaultTheme,darkTheme,blossomTheme].forEach(radio=>{
-  radio.addEventListener('change',()=>{document.body.classList.remove('dark','blossom');if(darkTheme.checked)document.body.classList.add('dark');else if(blossomTheme.checked)document.body.classList.add('blossom');});
+  radio.addEventListener('change',()=>{
+    document.body.classList.remove('dark','blossom');
+    if(darkTheme.checked)document.body.classList.add('dark');
+    else if(blossomTheme.checked)document.body.classList.add('blossom');
+  });
 });
 
 async function loadToPlayer(id,title,url){
   current={id,title,url};
   channelName.textContent=title;channelProfile.src='';viewsCount.textContent='';videoDesc.textContent='Loading info...';
-  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  try{
+    const res=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
+    const data=await res.json();
+    if(data.items && data.items.length){
+      const video=data.items[0];
+      channelName.textContent=video.snippet.channelTitle;
+      videoDesc.textContent=video.snippet.description;
+      viewsCount.textContent=parseInt(video.statistics.viewCount).toLocaleString()+' views';
+      const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
+      const chData=await chRes.json();
+      if(chData.items && chData.items.length)channelProfile.src=chData.items[0].snippet.thumbnails.default.url;
+    } else {channelName.textContent='Unknown channel';videoDesc.textContent='';viewsCount.textContent='';channelProfile.src='';}
+  }catch(e){console.error(e);channelName.textContent='Error loading info';videoDesc.textContent='';viewsCount.textContent='';channelProfile.src='';}
+}
+
+function render(){categorizeToggle.checked?renderCategorized():renderRandom();}
+function init(){if(flat.length){const first=flat[0];loadToPlayer(extractID(first.url),first.title,first.url);}render();}
+init();
+</script>
+</body>
+</html>
