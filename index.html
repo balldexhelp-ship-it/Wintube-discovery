@@ -5,38 +5,38 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube Discovery</title>
 <style>
-:root{
-  --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
-}
-body{margin:0;font-family:Arial,system-ui,-apple-system;background:var(--bg);color:var(--fg);transition:background .18s,color .18s;}
-body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-.topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-.topbar .left{font-weight:700}
-.controls{display:flex;gap:12px;align-items:center}
-.controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-.container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
-.player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
-#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-.channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
-.channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
-.channel-info{flex:1;display:flex;flex-direction:column;}
-.channel-name{font-weight:700;font-size:14px;}
-.video-views{font-size:12px;color:rgba(0,0,0,.6);}
-.video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
-body.dark .video-views{color:rgba(255,255,255,.6);}
-body.dark .video-desc{color:rgba(255,255,255,.8);}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.category{margin:8px 0}
-.cat-title{font-weight:800;margin:10px 0 6px}
-.thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
-.thumb:hover{transform:scale(1.03)}
-.thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-.thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
-body.dark .thumb .t{color:var(--fg);}
-@media (max-width:600px){
-  .topbar{padding:10px}
-  .controls label{font-size:13px}
-}
+  :root{
+    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+  }
+  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
+  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
+  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
+  .topbar .left{font-weight:700}
+  .controls{display:flex;gap:12px;align-items:center}
+  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
+  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
+  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
+  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
+  .channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
+  .channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
+  .channel-info{flex:1;display:flex;flex-direction:column;}
+  .channel-name{font-weight:700;font-size:14px;}
+  .video-views{font-size:12px;color:rgba(0,0,0,.6);}
+  .video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
+  body.dark .video-views{color:rgba(255,255,255,.6);}
+  body.dark .video-desc{color:rgba(255,255,255,.8);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .category{margin:8px 0}
+  .cat-title{font-weight:800;margin:10px 0 6px}
+  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
+  .thumb:hover{transform:scale(1.03)}
+  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
+  body.dark .thumb .t{color:var(--fg);}
+  @media (max-width:600px){
+    .topbar{padding:10px}
+    .controls label{font-size:13px}
+  }
 </style>
 </head>
 <body>
@@ -53,7 +53,7 @@ body.dark .thumb .t{color:var(--fg);}
   <section class="player-wrap">
     <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <div class="channel-bar">
-      <img id="channelProfile" src="" alt="Profile">
+      <img id="channelProfile" src="https://i.imgur.com/OwphEKv.png" alt="Profile">
       <div class="channel-info">
         <div class="channel-name" id="channelName">No video selected</div>
         <div class="video-views" id="viewsCount"></div>
@@ -66,16 +66,7 @@ body.dark .thumb .t{color:var(--fg);}
 </main>
 
 <script>
-const API_KEY = 'YOUR_YOUTUBE_API_KEY';
-
-function extractID(url){
-  if(!url) return '';
-  url = String(url).trim();
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  if(m && m[1]) return m[1];
-  try {const u = new URL(url); if(u.searchParams.get('v')) return u.searchParams.get('v'); let seg = u.pathname.split('/').filter(Boolean).pop(); if(seg) return seg.split('?')[0];} catch(e){}
-  return url;
-}
+const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA';
 
 const categorized = {
   "Other":[
@@ -142,48 +133,106 @@ const videoDesc = document.getElementById('videoDesc');
 const categorizeToggle = document.getElementById('categorizeToggle');
 const darkToggle = document.getElementById('darkToggle');
 
-function makeThumb(id, title, url){
+function extractID(url){
+  if(!url) return '';
+  url = String(url).trim();
+  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
+  return m && m[1] ? m[1] : url.split('?')[0];
+}
+
+function makeThumb(id,title,url){
   const div = document.createElement('div');
   div.className = 'thumb';
   const img = document.createElement('img');
   img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.onerror = () => { img.src=`https://i.ytimg.com/vi/${id}/mqdefault.jpg`; img.onerror=()=>{img.src=`https://i.ytimg.com/vi/${id}/default.jpg`; img.onerror=()=>{img.src='https://via.placeholder.com/320x180?text=No+Thumbnail';}};}
-  const t = document.createElement('div'); t.className='t'; t.textContent=title;
-  div.appendChild(img); div.appendChild(t);
-  div.onclick=()=>loadToPlayer(id,title,url);
+  img.alt = title;
+  const t = document.createElement('div');
+  t.className = 't';
+  t.textContent = title;
+  div.appendChild(img);
+  div.appendChild(t);
+  div.onclick = ()=> loadToPlayer(id,title,url);
   return div;
 }
 
-function renderCategorized(){listArea.innerHTML='';for(const cat of Object.keys(categorized)){const section=document.createElement('div');section.className='category';const h=document.createElement('div');h.className='cat-title';h.textContent=cat;section.appendChild(h);const g=document.createElement('div');g.className='grid';categorized[cat].forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,item.url));});section.appendChild(g);listArea.appendChild(section);}}
+function renderCategorized(){
+  listArea.innerHTML = '';
+  for(const cat of Object.keys(categorized)){
+    const section = document.createElement('div');
+    section.className = 'category';
+    const h = document.createElement('div');
+    h.className = 'cat-title';
+    h.textContent = cat;
+    section.appendChild(h);
+    const g = document.createElement('div');
+    g.className = 'grid';
+    categorized[cat].forEach(item=>{
+      const id = extractID(item.url);
+      g.appendChild(makeThumb(id,item.title,item.url));
+    });
+    section.appendChild(g);
+    listArea.appendChild(section);
+  }
+}
 
-function renderRandom(){listArea.innerHTML='';const arr=shuffle(flat.slice());const g=document.createElement('div');g.className='grid';arr.forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,item.url));});listArea.appendChild(g);}
+function renderRandom(){
+  listArea.innerHTML = '';
+  const arr = shuffle(flat.slice());
+  const g = document.createElement('div');
+  g.className = 'grid';
+  arr.forEach(item=>{
+    const id = extractID(item.url);
+    g.appendChild(makeThumb(id,item.title,item.url));
+  });
+  listArea.appendChild(g);
+}
 
-categorizeToggle.addEventListener('change',render);
-darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
+categorizeToggle.addEventListener('change', ()=> render());
+darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
 
 async function loadToPlayer(id,title,url){
-  channelName.textContent='Loading...'; channelProfile.src=''; viewsCount.textContent=''; videoDesc.textContent='Loading info...';
-  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  channelName.textContent = title;
+  videoDesc.textContent = 'Loading info...';
+  viewsCount.textContent = '';
+  channelProfile.src = 'https://i.imgur.com/OwphEKv.png';
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+
   try{
-    const res=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
-    const data=await res.json();
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
+    const data = await res.json();
     if(data.items && data.items.length){
-      const video=data.items[0];
-      channelName.textContent=video.snippet.channelTitle;
-      videoDesc.textContent=video.snippet.description;
-      viewsCount.textContent=parseInt(video.statistics.viewCount).toLocaleString()+' views';
-      const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
-      const chData=await chRes.json();
-      if(chData.items && chData.items.length) channelProfile.src=chData.items[0].snippet.thumbnails.default.url;
-    } else {channelName.textContent='Unknown channel'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';}
-  }catch(e){console.error(e);channelName.textContent='Error loading info'; videoDesc.textContent=''; viewsCount.textContent=''; channelProfile.src='';}
+      const video = data.items[0];
+      channelName.textContent = video.snippet.channelTitle || title;
+      videoDesc.textContent = video.snippet.description || '';
+      viewsCount.textContent = video.statistics && video.statistics.viewCount ? parseInt(video.statistics.viewCount).toLocaleString() + ' views' : '';
+
+      if(video.snippet.channelId){
+        const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
+        const chData = await chRes.json();
+        if(chData.items && chData.items.length){
+          channelProfile.src = chData.items[0].snippet.thumbnails.default.url;
+        }
+      }
+    } else {
+      videoDesc.textContent = '';
+    }
+  } catch(e){
+    console.error(e);
+    videoDesc.textContent = '';
+  }
 }
 
 function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
 
-function init(){if(flat.length){const first=flat[0];loadToPlayer(extractID(first.url),first.title,first.url);} render();}
+function init(){
+  if(flat.length){
+    const first = flat[0];
+    loadToPlayer(extractID(first.url), first.title, first.url);
+  }
+  render();
+}
 
-window.wintube={render,loadToPlayer,categorized,flat};
+window.wintube = {render, loadToPlayer, categorized, flat};
 init();
 </script>
 </body>
