@@ -27,8 +27,9 @@ body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
 .video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
 .video-info .desc{font-size:14px;margin-top:8px;color:rgba(0,0,0,.8);}
 body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
-.sidebar{flex:1 1 25%; background:var(--card); padding:12px; overflow-y:auto; display:none; max-height:80vh;}
-.thumb{margin-bottom:12px; cursor:pointer; display:flex; flex-direction:column; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .12s;}
+.sidebar{flex:1 1 25%; background:var(--card); padding:12px; display:flex; flex-direction:column; gap:8px;}
+.sidebar .thumb{border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:6px; margin-bottom:6px;}
+.thumb{cursor:pointer; display:flex; flex-direction:column; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .12s;}
 .thumb:hover{transform:scale(1.03);}
 .thumb img{width:100%; aspect-ratio:16/9; object-fit:cover;}
 .thumb .t{padding:6px;font-weight:bold;font-size:13px;color:var(--fg);font-family:Verdana;}
@@ -38,7 +39,7 @@ body.dark .thumb .t{color:var(--fg);}
 .cat-title{font-weight:800;margin:10px 0 6px;font-family:Verdana;}
 @media(max-width:900px){
   .player-info{flex-direction:column;}
-  .sidebar{max-height:300px;}
+  .sidebar{flex:1 1 100%;}
 }
 </style>
 </head>
@@ -194,7 +195,7 @@ function renderRandom(container){
 function openWatchView(id){
   watchView.style.display='flex';
   videoListArea.style.display='none';
-  sidebar.style.display='block';
+  sidebar.style.display='flex';
 
   player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
   videoTitle.textContent='Loading...';
@@ -204,10 +205,11 @@ function openWatchView(id){
   videoDesc.textContent='';
 
   sidebar.innerHTML='';
-  const otherVideos = flat.filter(v=>extractID(v.url)!==id).sort(()=>Math.random()-0.5).slice(0,10);
+  const otherVideos = flat.filter(v=>extractID(v.url)!==id);
   otherVideos.forEach(item=>{
     const vidID=extractID(item.url);
-    sidebar.appendChild(makeThumb(vidID,item.title,()=>openWatchView(vidID)));
+    const thumb=makeThumb(vidID,item.title,()=>openWatchView(vidID));
+    sidebar.appendChild(thumb);
   });
 
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`)
