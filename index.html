@@ -14,18 +14,20 @@ body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
 .topbar .left{font-weight:700}
 .controls{display:flex;gap:12px;align-items:center}
 .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-.container{max-width:1200px;margin:86px auto 40px;padding:0 16px;display:flex;gap:12px;}
-.video-area{flex:3; display:flex; flex-direction:column;}
-.player-wrap{display:none; background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08); margin-bottom:18px;}
-#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-.video-info{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 14px rgba(0,0,0,.06);margin-top:12px;}
+.container{max-width:1200px;margin:86px auto 40px;padding:0 16px; display:flex; gap:12px; flex-wrap:wrap;}
+.video-list{flex:1 1 100%;}
+.watch-view{display:none; flex:1 1 100%; gap:12px; flex-wrap:wrap;}
+.player-info{display:flex; gap:12px; flex:3 1 60%;}
+.player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08); flex:2 1 60%;}
+#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0;}
+.video-info{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 14px rgba(0,0,0,.06); flex:1 1 40%;}
 .video-info .title{font-weight:700;font-size:16px;margin-bottom:6px;}
 .video-info .channel{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 .video-info .channel img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
 .video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
 .video-info .desc{font-size:14px;margin-top:8px;color:rgba(0,0,0,.8);}
 body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
-.sidebar{flex:1; background:var(--card); padding:12px; overflow-y:auto; display:none;}
+.sidebar{flex:1 1 25%; background:var(--card); padding:12px; overflow-y:auto; display:none; max-height:80vh;}
 .thumb{margin-bottom:12px; cursor:pointer; display:flex; flex-direction:column; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .12s;}
 .thumb:hover{transform:scale(1.03);}
 .thumb img{width:100%; aspect-ratio:16/9; object-fit:cover;}
@@ -34,9 +36,9 @@ body.dark .thumb .t{color:var(--fg);}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .category{margin:8px 0}
 .cat-title{font-weight:800;margin:10px 0 6px}
-@media(max-width:800px){
-  .container{flex-direction:column;}
-  .sidebar{height:200px;}
+@media(max-width:900px){
+  .player-info{flex-direction:column;}
+  .sidebar{max-height:300px;}
 }
 </style>
 </head>
@@ -51,11 +53,13 @@ body.dark .thumb .t{color:var(--fg);}
 </div>
 
 <main class="container">
-  <div class="video-area">
-    <section id="video-list-area"></section>
+  <div class="video-list" id="videoListArea"></div>
 
-    <section class="player-wrap" id="playerWrap">
-      <iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="watch-view" id="watchView">
+    <div class="player-info">
+      <div class="player-wrap">
+        <iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
       <div class="video-info">
         <div class="title" id="videoTitle">Title</div>
         <div class="channel">
@@ -65,9 +69,9 @@ body.dark .thumb .t{color:var(--fg);}
         <div class="views" id="viewsCount"></div>
         <div class="desc" id="videoDesc"></div>
       </div>
-    </section>
+    </div>
+    <div class="sidebar" id="videoSidebar"></div>
   </div>
-  <div class="sidebar" id="videoSidebar"></div>
 </main>
 
 <script>
@@ -76,54 +80,44 @@ const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA';
 const categorized = {
   "Other":[
     {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
-    {url:"https://youtu.be/OLBVr0L7zGo?si=LUCz0f-iS_SpmVgp", title:"TWA Radio Frutiger areo"},
-    {url:"https://youtu.be/cM_nJw4BT6Y?si=ryCRCN2UWgSZhFZo", title:"TWA Radio other"},
-    {url:"https://youtu.be/38UahavvNtw?si=pQGyUCvk1XZkwVh-", title:"Windows: Final Update - Part 1 - The Murder"}
+    {url:"https://youtu.be/OLBVr0L7zGo?si=LUCz0f-iS_SpmVgp", title:"TWA Radio Frutiger areo"}
   ],
   "Special":[
     {url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu", title:"Happy Birthday Windows 7 (Full)"}
-  ],
-  "Windows Lapis and Friends":[
-    {url:"https://youtu.be/vrOQFA88j9A?si=aubDPbzNUN2L4aw2", title:"Windows lapis and friends part 1 - a sticky situation"},
-    {url:"https://youtu.be/lUqZyfLGgRE?si=Qt5ZLjxW6CIKspcK", title:"Windows lapis and friends portal trouble (part 2)"},
-    {url:"https://youtu.be/VG30TaK--zc?si=AzSYsVwSYGIJVkSg", title:"Windows lapis and friends trouble in Bliss (part 3)"},
-    {url:"https://youtu.be/nV1_SDDzzpA?si=_OR6zqynAFNa5lw5", title:"Windows lapis and friends Vista is back? (part 4)"},
-    {url:"https://youtu.be/--NK4Iuhmlk?si=-Ry0wsECriunDu4r", title:"Windows lapis and friends Good bye Mojave (part 5)"}
   ]
 };
 
 function flattenCategories(obj){
-  const out = [];
+  const out=[];
   for(const cat in obj){
-    obj[cat].forEach(v=>out.push({...v, category:cat}));
+    obj[cat].forEach(v=>out.push({...v,category:cat}));
   }
   return out;
 }
+let flat=flattenCategories(categorized);
 
-let flat = flattenCategories(categorized);
+const videoListArea=document.getElementById('videoListArea');
+const watchView=document.getElementById('watchView');
+const sidebar=document.getElementById('videoSidebar');
+const player=document.getElementById('player');
+const videoTitle=document.getElementById('videoTitle');
+const channelName=document.getElementById('channelName');
+const channelProfile=document.getElementById('channelProfile');
+const viewsCount=document.getElementById('viewsCount');
+const videoDesc=document.getElementById('videoDesc');
 
-const listArea = document.getElementById('video-list-area');
-const sidebar = document.getElementById('videoSidebar');
-const playerWrap = document.getElementById('playerWrap');
-const player = document.getElementById('player');
-const videoTitle = document.getElementById('videoTitle');
-const channelName = document.getElementById('channelName');
-const channelProfile = document.getElementById('channelProfile');
-const viewsCount = document.getElementById('viewsCount');
-const videoDesc = document.getElementById('videoDesc');
-
-const categorizeToggle = document.getElementById('categorizeToggle');
-const darkToggle = document.getElementById('darkToggle');
+const categorizeToggle=document.getElementById('categorizeToggle');
+const darkToggle=document.getElementById('darkToggle');
 
 function extractID(url){
   if(!url) return '';
-  url = String(url).trim();
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  return m && m[1] ? m[1] : url.split('?')[0];
+  url=String(url).trim();
+  let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
+  return m&&m[1]?m[1]:url.split('?')[0];
 }
 
 function makeThumb(id,title,onClick){
-  const div = document.createElement('div');
+  const div=document.createElement('div');
   div.className='thumb';
   const img=document.createElement('img');
   img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
@@ -132,14 +126,14 @@ function makeThumb(id,title,onClick){
   t.textContent=title;
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick = onClick;
+  div.onclick=onClick;
   return div;
 }
 
-function renderCategorized(){
-  listArea.innerHTML='';
+function renderCategorized(container){
+  container.innerHTML='';
   for(const cat in categorized){
-    const section = document.createElement('div');
+    const section=document.createElement('div');
     section.className='category';
     const h=document.createElement('div');
     h.className='cat-title';
@@ -148,29 +142,31 @@ function renderCategorized(){
     const g=document.createElement('div');
     g.className='grid';
     categorized[cat].forEach(item=>{
-      const id = extractID(item.url);
-      g.appendChild(makeThumb(id,item.title,()=>loadVideo(id)));
+      const id=extractID(item.url);
+      g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));
     });
     section.appendChild(g);
-    listArea.appendChild(section);
+    container.appendChild(section);
   }
 }
 
-function renderRandom(){
-  listArea.innerHTML='';
-  const arr = [...flat].sort(()=>Math.random()-0.5);
-  const g = document.createElement('div');
+function renderRandom(container){
+  container.innerHTML='';
+  const arr=[...flat].sort(()=>Math.random()-0.5);
+  const g=document.createElement('div');
   g.className='grid';
   arr.forEach(item=>{
     const id=extractID(item.url);
-    g.appendChild(makeThumb(id,item.title,()=>loadVideo(id)));
+    g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));
   });
-  listArea.appendChild(g);
+  container.appendChild(g);
 }
 
-function loadVideo(id){
-  playerWrap.style.display='block';
-  sidebar.style.display='block';
+function openWatchView(id){
+  // Show watch view
+  watchView.style.display='flex';
+  videoListArea.style.display='none';
+
   player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
   videoTitle.textContent='Loading...';
   channelName.textContent='';
@@ -178,39 +174,40 @@ function loadVideo(id){
   viewsCount.textContent='';
   videoDesc.textContent='';
 
+  // Populate sidebar
+  sidebar.innerHTML='';
+  flat.forEach(item=>{
+    const vidID=extractID(item.url);
+    sidebar.appendChild(makeThumb(vidID,item.title,()=>openWatchView(vidID)));
+  });
+
+  // Fetch YouTube info
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`)
   .then(r=>r.json())
   .then(data=>{
     if(data.items && data.items.length){
       const vid=data.items[0];
-      videoTitle.textContent = vid.snippet.title;
-      channelName.textContent = vid.snippet.channelTitle;
-      videoDesc.textContent = vid.snippet.description;
-      viewsCount.textContent = vid.statistics?.viewCount ? parseInt(vid.statistics.viewCount).toLocaleString()+' views':'';
-
+      videoTitle.textContent=vid.snippet.title;
+      channelName.textContent=vid.snippet.channelTitle;
+      videoDesc.textContent=vid.snippet.description;
+      viewsCount.textContent=vid.statistics?.viewCount ? parseInt(vid.statistics.viewCount).toLocaleString()+' views':'';
       if(vid.snippet.channelId){
         fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${vid.snippet.channelId}&key=${API_KEY}`)
         .then(r=>r.json()).then(ch=>{
           if(ch.items && ch.items.length){
             channelProfile.src = ch.items[0].snippet.thumbnails.default.url;
           }
-        })
+        });
       }
     }
   }).catch(()=>{videoTitle.textContent='Error loading info';});
-
-  // Populate sidebar
-  sidebar.innerHTML='';
-  flat.forEach(item=>{
-    const vidID=extractID(item.url);
-    sidebar.appendChild(makeThumb(vidID,item.title,()=>loadVideo(vidID)));
-  });
 }
 
-categorizeToggle.addEventListener('change',()=>categorizeToggle.checked ? renderCategorized() : renderRandom());
+categorizeToggle.addEventListener('change',()=>categorizeToggle.checked ? renderCategorized(videoListArea) : renderRandom(videoListArea));
 darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
 
-(categorizeToggle.checked ? renderCategorized : renderRandom)();
+// Initial render
+(categorizeToggle.checked ? renderCategorized(videoListArea) : renderRandom(videoListArea))();
 </script>
 </body>
 </html>
