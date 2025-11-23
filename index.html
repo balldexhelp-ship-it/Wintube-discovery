@@ -1,44 +1,43 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WinTube Discovery</title>
 <style>
-  :root{
-    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
-  }
-  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
-  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-  .topbar .left{font-weight:700}
-  .controls{display:flex;gap:12px;align-items:center}
-  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
-  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
-  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-  .channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
-  .channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
-  .channel-info{flex:1;display:flex;flex-direction:column;}
-  .channel-name{font-weight:700;font-size:14px;}
-  .video-views{font-size:12px;color:rgba(0,0,0,.6);}
-  .video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
-  body.dark .video-views{color:rgba(255,255,255,.6);}
-  body.dark .video-desc{color:rgba(255,255,255,.8);}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .category{margin:8px 0}
-  .cat-title{font-weight:800;margin:10px 0 6px}
-  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
-  .thumb:hover{transform:scale(1.03)}
-  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
-  body.dark .thumb .t{color:var(--fg);}
-  @media (max-width:600px){
-    .topbar{padding:10px}
-    .controls label{font-size:13px}
-  }
+:root{
+  --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+}
+body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
+body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
+.topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
+.topbar .left{font-weight:700}
+.controls{display:flex;gap:12px;align-items:center}
+.controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
+.container{max-width:1200px;margin:86px auto 40px;padding:0 16px;display:flex;gap:12px;}
+.video-area{flex:3; display:flex; flex-direction:column;}
+.player-wrap{display:none; background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08); margin-bottom:18px;}
+#player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
+.video-info{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 14px rgba(0,0,0,.06);margin-top:12px;}
+.video-info .title{font-weight:700;font-size:16px;margin-bottom:6px;}
+.video-info .channel{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.video-info .channel img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
+.video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
+.video-info .desc{font-size:14px;margin-top:8px;color:rgba(0,0,0,.8);}
+body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
+.sidebar{flex:1; background:var(--card); padding:12px; overflow-y:auto; display:none;}
+.thumb{margin-bottom:12px; cursor:pointer; display:flex; flex-direction:column; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .12s;}
+.thumb:hover{transform:scale(1.03);}
+.thumb img{width:100%; aspect-ratio:16/9; object-fit:cover;}
+.thumb .t{padding:6px;font-weight:600;font-size:13px;color:var(--fg);}
+body.dark .thumb .t{color:var(--fg);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.category{margin:8px 0}
+.cat-title{font-weight:800;margin:10px 0 6px}
+@media(max-width:800px){
+  .container{flex-direction:column;}
+  .sidebar{height:200px;}
+}
 </style>
 </head>
 <body>
@@ -52,19 +51,23 @@
 </div>
 
 <main class="container">
-  <section class="player-wrap">
-    <iframe id="player" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="channel-bar">
-      <img id="channelProfile" src="https://i.imgur.com/OwphEKv.png" alt="Profile">
-      <div class="channel-info">
-        <div class="channel-name" id="channelName">No video selected</div>
-        <div class="video-views" id="viewsCount"></div>
-        <div class="video-desc" id="videoDesc"></div>
-      </div>
-    </div>
-  </section>
+  <div class="video-area">
+    <section id="video-list-area"></section>
 
-  <section id="video-list-area"></section>
+    <section class="player-wrap" id="playerWrap">
+      <iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="video-info">
+        <div class="title" id="videoTitle">Title</div>
+        <div class="channel">
+          <img id="channelProfile" src="https://i.imgur.com/OwphEKv.png">
+          <div id="channelName"></div>
+        </div>
+        <div class="views" id="viewsCount"></div>
+        <div class="desc" id="videoDesc"></div>
+      </div>
+    </section>
+  </div>
+  <div class="sidebar" id="videoSidebar"></div>
 </main>
 
 <script>
@@ -86,52 +89,29 @@ const categorized = {
     {url:"https://youtu.be/VG30TaK--zc?si=AzSYsVwSYGIJVkSg", title:"Windows lapis and friends trouble in Bliss (part 3)"},
     {url:"https://youtu.be/nV1_SDDzzpA?si=_OR6zqynAFNa5lw5", title:"Windows lapis and friends Vista is back? (part 4)"},
     {url:"https://youtu.be/--NK4Iuhmlk?si=-Ry0wsECriunDu4r", title:"Windows lapis and friends Good bye Mojave (part 5)"}
-  ],
-  "TUI":[
-    {url:"https://youtu.be/taRL5GOsCdM?si=UXB0sSwsKaKX2vP2", title:"TUI 1 - the start of the outbreak"}
-  ],
-  "ATCITA":[
-    {url:"https://youtu.be/0zaUXku15mE?si=nVxD4S9jqnrAo7pE", title:"Windows 7 and the chaos in the after life - tired (part 1)"},
-    {url:"https://youtu.be/j_IC4bgDjGg?si=QRHxe4vH7O4m3K5c", title:"Windows 7 and the chaos in the after life - the demise (part 2)"},
-    {url:"https://youtu.be/0nktRtXSwFQ?si=zGYocR4ooXVcJyVc", title:"ATCITA 3 - meeting others and the start of problems"},
-    {url:"https://youtu.be/icNhbX9r3ZE?si=gYdJdGv57clFwnza", title:"ATCITA 4 - arrival and capture"},
-    {url:"https://youtu.be/I15EdtFU6aE?si=MGhx11A2twNo45RL", title:"ATCITA 5A - the search for Vienna"},
-    {url:"https://youtu.be/yWGWml5YYek?si=y-n47o_L6Rnt0QwU", title:"ATCITA 5B - the search for Vienna 2"},
-    {url:"https://youtu.be/iyQmF9mtOVs?si=kS0lCISSeqSk6pl5", title:"ATCITA 6 - solution plan"},
-    {url:"https://youtu.be/hedyCgmgMws?si=GJjQRYOLnLd_eK7Q", title:"ATCITA 7 - the plan"},
-    {url:"https://youtu.be/I6JHsnqc69g?si=enyZzCD60o-2zpc6", title:"ATCITA 8 - back to the building"}
-  ],
-  "Windows XP’s First Days":[
-    {url:"https://youtu.be/qX50c3wnW6M?si=4czG_wfIG7j3V-5M", title:"Windows XP’s First days S1 E1"},
-    {url:"https://youtu.be/jPTauwoWp6U?si=FS0ZhoEUXBL7RZg7", title:"Windows XP’s First days S1 EP 2 - a spiraling vortex"},
-    {url:"https://youtu.be/czQb2TeX5bE?si=Vjbb7swDJ8Wehz-Y", title:"Windows XP’s First days S1 E3 - plan after storm"}
   ]
 };
 
 function flattenCategories(obj){
   const out = [];
-  for(const cat of Object.keys(obj)){
-    obj[cat].forEach(v => out.push(Object.assign({}, v, {category:cat})));
+  for(const cat in obj){
+    obj[cat].forEach(v=>out.push({...v, category:cat}));
   }
   return out;
 }
 
 let flat = flattenCategories(categorized);
 
-function shuffle(a){
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-
 const listArea = document.getElementById('video-list-area');
+const sidebar = document.getElementById('videoSidebar');
+const playerWrap = document.getElementById('playerWrap');
 const player = document.getElementById('player');
-const channelProfile = document.getElementById('channelProfile');
+const videoTitle = document.getElementById('videoTitle');
 const channelName = document.getElementById('channelName');
+const channelProfile = document.getElementById('channelProfile');
 const viewsCount = document.getElementById('viewsCount');
 const videoDesc = document.getElementById('videoDesc');
+
 const categorizeToggle = document.getElementById('categorizeToggle');
 const darkToggle = document.getElementById('darkToggle');
 
@@ -142,35 +122,34 @@ function extractID(url){
   return m && m[1] ? m[1] : url.split('?')[0];
 }
 
-function makeThumb(id,title,url){
+function makeThumb(id,title,onClick){
   const div = document.createElement('div');
-  div.className = 'thumb';
-  const img = document.createElement('img');
-  img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.alt = title;
-  const t = document.createElement('div');
-  t.className = 't';
-  t.textContent = title;
+  div.className='thumb';
+  const img=document.createElement('img');
+  img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  const t=document.createElement('div');
+  t.className='t';
+  t.textContent=title;
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick = ()=> loadToPlayer(id,title,url);
+  div.onclick = onClick;
   return div;
 }
 
 function renderCategorized(){
-  listArea.innerHTML = '';
-  for(const cat of Object.keys(categorized)){
+  listArea.innerHTML='';
+  for(const cat in categorized){
     const section = document.createElement('div');
-    section.className = 'category';
-    const h = document.createElement('div');
-    h.className = 'cat-title';
-    h.textContent = cat;
+    section.className='category';
+    const h=document.createElement('div');
+    h.className='cat-title';
+    h.textContent=cat;
     section.appendChild(h);
-    const g = document.createElement('div');
-    g.className = 'grid';
+    const g=document.createElement('div');
+    g.className='grid';
     categorized[cat].forEach(item=>{
       const id = extractID(item.url);
-      g.appendChild(makeThumb(id,item.title,item.url));
+      g.appendChild(makeThumb(id,item.title,()=>loadVideo(id)));
     });
     section.appendChild(g);
     listArea.appendChild(section);
@@ -178,63 +157,60 @@ function renderCategorized(){
 }
 
 function renderRandom(){
-  listArea.innerHTML = '';
-  const arr = shuffle(flat.slice());
+  listArea.innerHTML='';
+  const arr = [...flat].sort(()=>Math.random()-0.5);
   const g = document.createElement('div');
-  g.className = 'grid';
+  g.className='grid';
   arr.forEach(item=>{
-    const id = extractID(item.url);
-    g.appendChild(makeThumb(id,item.title,item.url));
+    const id=extractID(item.url);
+    g.appendChild(makeThumb(id,item.title,()=>loadVideo(id)));
   });
   listArea.appendChild(g);
 }
 
-categorizeToggle.addEventListener('change', ()=> render());
-darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
+function loadVideo(id){
+  playerWrap.style.display='block';
+  sidebar.style.display='block';
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  videoTitle.textContent='Loading...';
+  channelName.textContent='';
+  channelProfile.src='https://i.imgur.com/OwphEKv.png';
+  viewsCount.textContent='';
+  videoDesc.textContent='';
 
-async function loadToPlayer(id,title,url){
-  channelName.textContent = title;
-  videoDesc.textContent = 'Loading info...';
-  viewsCount.textContent = '';
-  channelProfile.src = 'https://i.imgur.com/OwphEKv.png';
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-
-  try{
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
-    const data = await res.json();
+  fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`)
+  .then(r=>r.json())
+  .then(data=>{
     if(data.items && data.items.length){
-      const video = data.items[0];
-      channelName.textContent = video.snippet.channelTitle || title;
-      videoDesc.textContent = video.snippet.description || '';
-      viewsCount.textContent = video.statistics && video.statistics.viewCount ? parseInt(video.statistics.viewCount).toLocaleString() + ' views' : '';
+      const vid=data.items[0];
+      videoTitle.textContent = vid.snippet.title;
+      channelName.textContent = vid.snippet.channelTitle;
+      videoDesc.textContent = vid.snippet.description;
+      viewsCount.textContent = vid.statistics?.viewCount ? parseInt(vid.statistics.viewCount).toLocaleString()+' views':'';
 
-      if(video.snippet.channelId){
-        const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
-        const chData = await chRes.json();
-        if(chData.items && chData.items.length){
-          channelProfile.src = chData.items[0].snippet.thumbnails.default.url;
-        }
+      if(vid.snippet.channelId){
+        fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${vid.snippet.channelId}&key=${API_KEY}`)
+        .then(r=>r.json()).then(ch=>{
+          if(ch.items && ch.items.length){
+            channelProfile.src = ch.items[0].snippet.thumbnails.default.url;
+          }
+        })
       }
-    } else {
-      videoDesc.textContent = '';
     }
-  } catch(e){
-    console.error(e);
-    videoDesc.textContent = '';
-  }
+  }).catch(()=>{videoTitle.textContent='Error loading info';});
+
+  // Populate sidebar
+  sidebar.innerHTML='';
+  flat.forEach(item=>{
+    const vidID=extractID(item.url);
+    sidebar.appendChild(makeThumb(vidID,item.title,()=>loadVideo(vidID)));
+  });
 }
 
-function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
+categorizeToggle.addEventListener('change',()=>categorizeToggle.checked ? renderCategorized() : renderRandom());
+darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
 
-function init(){
-  if(flat.length){
-    const first = flat[0];
-    loadToPlayer(extractID(first.url), first.title, first.url);
-  }
-  render();
-}
-
-window.wintube = {render, loadToPlayer, categorized, flat};
-init();
+(categorizeToggle.checked ? renderCategorized : renderRandom)();
 </script>
 </body>
+</html>
