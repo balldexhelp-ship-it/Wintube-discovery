@@ -8,10 +8,10 @@
 :root{
   --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
 }
-body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
+body{margin:0;font-family:Verdana,Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
 body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
 .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-.topbar .left{font-weight:700}
+.topbar .left img{height:30px;}
 .controls{display:flex;gap:12px;align-items:center}
 .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
 .container{max-width:1200px;margin:86px auto 40px;padding:0 16px; display:flex; gap:12px; flex-wrap:wrap;}
@@ -20,8 +20,8 @@ body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
 .player-info{display:flex; gap:12px; flex:3 1 60%;}
 .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08); flex:2 1 60%;}
 #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0;}
+.video-title{font-family:Verdana;font-weight:bold;font-size:16px;margin:8px 0;}
 .video-info{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 14px rgba(0,0,0,.06); flex:1 1 40%;}
-.video-info .title{font-weight:700;font-size:16px;margin-bottom:6px;}
 .video-info .channel{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 .video-info .channel img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
 .video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
@@ -31,11 +31,11 @@ body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
 .thumb{margin-bottom:12px; cursor:pointer; display:flex; flex-direction:column; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .12s;}
 .thumb:hover{transform:scale(1.03);}
 .thumb img{width:100%; aspect-ratio:16/9; object-fit:cover;}
-.thumb .t{padding:6px;font-weight:600;font-size:13px;color:var(--fg);}
+.thumb .t{padding:6px;font-weight:bold;font-size:13px;color:var(--fg);font-family:Verdana;}
 body.dark .thumb .t{color:var(--fg);}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .category{margin:8px 0}
-.cat-title{font-weight:800;margin:10px 0 6px}
+.cat-title{font-weight:800;margin:10px 0 6px;font-family:Verdana;}
 @media(max-width:900px){
   .player-info{flex-direction:column;}
   .sidebar{max-height:300px;}
@@ -45,7 +45,7 @@ body.dark .thumb .t{color:var(--fg);}
 <body>
 
 <div class="topbar">
-  <div class="left">WinTube Discovery</div>
+  <div class="left"><img src="https://i.imgur.com/Osi9wYB.png" alt="WinTube Discovery"></div>
   <div class="controls">
     <label><input type="checkbox" id="darkToggle"> Dark</label>
     <label><input type="checkbox" id="categorizeToggle" checked> Categorize</label>
@@ -57,11 +57,13 @@ body.dark .thumb .t{color:var(--fg);}
 
   <div class="watch-view" id="watchView">
     <div class="player-info">
-      <div class="player-wrap">
-        <iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div style="flex:2 1 60%;">
+        <div class="player-wrap">
+          <iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-title" id="videoTitle">Title</div>
       </div>
       <div class="video-info">
-        <div class="title" id="videoTitle">Title</div>
         <div class="channel">
           <img id="channelProfile" src="https://i.imgur.com/OwphEKv.png">
           <div id="channelName"></div>
@@ -133,7 +135,6 @@ const channelName=document.getElementById('channelName');
 const channelProfile=document.getElementById('channelProfile');
 const viewsCount=document.getElementById('viewsCount');
 const videoDesc=document.getElementById('videoDesc');
-
 const categorizeToggle=document.getElementById('categorizeToggle');
 const darkToggle=document.getElementById('darkToggle');
 
@@ -203,7 +204,8 @@ function openWatchView(id){
   videoDesc.textContent='';
 
   sidebar.innerHTML='';
-  flat.forEach(item=>{
+  const otherVideos = flat.filter(v=>extractID(v.url)!==id).sort(()=>Math.random()-0.5).slice(0,10);
+  otherVideos.forEach(item=>{
     const vidID=extractID(item.url);
     sidebar.appendChild(makeThumb(vidID,item.title,()=>openWatchView(vidID)));
   });
