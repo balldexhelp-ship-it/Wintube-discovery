@@ -8,31 +8,170 @@
   :root{
     --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
   }
-  body{margin:0;font-family:Arial,system-ui,-apple-system; background:var(--bg); color:var(--fg); transition:background .18s,color .18s;}
-  body.dark{--bg:#0f1113;--fg:#eaeaea;--card:#1f1f22;}
-  .topbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;z-index:30}
-  .topbar .left{font-weight:700}
-  .controls{display:flex;gap:12px;align-items:center}
-  .controls label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
-  .container{max-width:1200px;margin:86px auto 40px;padding:0 16px}
-  .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);margin-bottom:18px}
-  #player{width:100%;aspect-ratio:16/9;border-radius:8px;border:0}
-  .channel-bar{display:flex;align-items:center;gap:12px;margin-top:8px;background:var(--card);padding:8px 12px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
-  .channel-bar img{border-radius:50%;width:48px;height:48px;object-fit:cover}
-  .channel-info{flex:1;display:flex;flex-direction:column;}
-  .channel-name{font-weight:700;font-size:14px;}
-  .video-views{font-size:12px;color:rgba(0,0,0,.6);}
-  .video-desc{font-size:13px;color:rgba(0,0,0,.8);margin-top:4px;max-height:48px;overflow:hidden;text-overflow:ellipsis;}
+  body{
+    margin:0;
+    font-family: Verdana;
+    font-weight: bold;
+    background:var(--bg);
+    color:var(--fg);
+    transition:background .18s,color .18s;
+  }
+  body.dark{
+    --bg:#0f1113;
+    --fg:#eaeaea;
+    --card:#1f1f22;
+  }
+  .topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 18px;
+    background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+    color:#fff;
+    z-index:30;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .topbar .left{
+    font-weight: bold;
+    font-family: Verdana;
+  }
+  .controls{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .controls label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-family:Verdana;
+    font-size:14px;
+  }
+  .container{
+    max-width:1200px;
+    margin:86px auto 40px;
+    padding:0 16px;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .player-wrap{
+    background:var(--card);
+    border-radius:10px;
+    padding:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    margin-bottom:18px;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  #player{
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:8px;
+    border:0;
+  }
+  .channel-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:8px;
+    background:var(--card);
+    padding:8px 12px;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+  }
+  .channel-bar img{
+    border-radius:50%;
+    width:48px;
+    height:48px;
+    object-fit:cover;
+  }
+  .channel-info{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .channel-name{
+    font-weight:bold;
+    font-family: Verdana;
+    font-size:14px;
+  }
+  .video-views{
+    font-size:12px;
+    color:rgba(0,0,0,.6);
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .video-desc{
+    font-size:13px;
+    color:rgba(0,0,0,.8);
+    margin-top:4px;
+    max-height:48px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-family: Verdana;
+    font-weight: bold;
+  }
   body.dark .video-views{color:rgba(255,255,255,.6);}
   body.dark .video-desc{color:rgba(255,255,255,.8);}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .category{margin:8px 0}
-  .cat-title{font-weight:800;margin:10px 0 6px}
-  .thumb{background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s}
-  .thumb:hover{transform:scale(1.03)}
-  .thumb img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-  .thumb .t{padding:8px;font-weight:700;font-size:13px;color:var(--fg)}
-  body.dark .thumb .t{color:var(--fg);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .category{
+    margin:8px 0;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .cat-title{
+    font-weight:bold;
+    font-family: Verdana;
+    margin:10px 0 6px;
+  }
+  .thumb{
+    background:var(--card);
+    border-radius:8px;
+    overflow:hidden;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 6px 14px rgba(0,0,0,.06);
+    transition:transform .12s;
+    font-family: Verdana;
+    font-weight: bold;
+  }
+  .thumb:hover{
+    transform:scale(1.03);
+  }
+  .thumb img{
+    width:100%;
+    height:auto;
+    display:block;
+    aspect-ratio:16/9;
+    object-fit:cover;
+  }
+  .thumb .t{
+    padding:8px;
+    font-weight:bold;
+    font-family:Verdana;
+    font-size:13px;
+    color:var(--fg);
+  }
+  body.dark .thumb .t{
+    color:var(--fg);
+  }
   @media (max-width:600px){
     .topbar{padding:10px}
     .controls label{font-size:13px}
@@ -119,7 +258,7 @@ let flat = flattenCategories(categorized);
 function shuffle(a){
   for(let i=a.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+    [a[i],a[j]]=[a[j]],a[i];
   }
   return a;
 }
@@ -222,7 +361,9 @@ async function loadToPlayer(id,title,url){
   }
 }
 
-function render(){categorizeToggle.checked ? renderCategorized() : renderRandom();}
+function render(){
+  categorizeToggle.checked ? renderCategorized() : renderRandom();
+}
 
 function init(){
   if(flat.length){
@@ -236,3 +377,4 @@ window.wintube = {render, loadToPlayer, categorized, flat};
 init();
 </script>
 </body>
+</html>
