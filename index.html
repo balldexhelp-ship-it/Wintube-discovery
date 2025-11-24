@@ -35,7 +35,7 @@ body.dark .thumb .t{color:var(--fg);}
 .video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
 .video-info .desc{font-size:14px;margin-top:8px;color:rgba(0,0,0,.8);}
 body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
-.sidebar{flex:1; display:flex; flex-direction:column; gap:6px; max-height:100vh; overflow-y:hidden; border-left:1px solid #000; padding-left:6px;}
+.sidebar{flex:1; display:flex; flex-direction:column; gap:6px; max-height:80vh; overflow-y:auto; border-left:1px solid #000; padding-left:6px;}
 .sidebar .thumb{border-bottom:2px solid black; margin-bottom:0; padding-bottom:0;}
 .sidebar .thumb img{height:auto; width:100%; display:block;}
 .sidebar .thumb .t{padding:4px 0; text-align:left;}
@@ -154,13 +154,9 @@ function openWatchView(id){
   // Render sidebar
   sidebar.innerHTML='';
   const otherVideos = flat.filter(v=>extractID(v.url)!==id);
-  const totalVideos = otherVideos.length;
-  const sidebarHeight = sidebar.clientHeight || window.innerHeight;
-  const thumbHeight = Math.floor(sidebarHeight / totalVideos) - 6; // adjust for gap
   otherVideos.forEach(item=>{
     const vidID=extractID(item.url);
     const thumb=makeThumb(vidID,item.title,()=>openWatchView(vidID));
-    thumb.querySelector('img').style.height=thumbHeight+'px';
     sidebar.appendChild(thumb);
   });
 
