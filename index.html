@@ -24,7 +24,7 @@ body.dark .thumb .t{color:var(--fg);}
 .category{margin:8px 0;}
 .cat-title{font-weight:800;margin:10px 0 6px;font-family:Verdana;}
 /* Watch view layout */
-.watch-view{display:none; margin-top:12px; display:flex; gap:12px;}
+.watch-view{display:none; margin-top:12px; display:flex; gap:12px; align-items:flex-start;}
 .player-column{flex:2; display:flex; flex-direction:column; gap:12px;}
 .player-wrap{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);}
 #player{width:100%; aspect-ratio:16/9; border-radius:8px; border:0;}
@@ -35,11 +35,11 @@ body.dark .thumb .t{color:var(--fg);}
 .video-info .views{font-size:13px;color:rgba(0,0,0,.6);}
 .video-info .desc{font-size:14px;margin-top:8px;color:rgba(0,0,0,.8);}
 body.dark .views, body.dark .desc{color:rgba(255,255,255,.7);}
-.sidebar{flex:1; display:flex; flex-direction:column; gap:8px;}
+.sidebar{flex:1; display:flex; flex-direction:column; gap:8px; max-height:100vh; overflow-y:auto;}
 .sidebar .thumb{border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:6px; margin-bottom:6px;}
 @media(max-width:900px){
   .watch-view{flex-direction:column;}
-  .sidebar{flex-direction:row; flex-wrap:wrap;}
+  .sidebar{flex-direction:row; flex-wrap:wrap; max-height:none;}
 }
 </style>
 </head>
@@ -115,13 +115,7 @@ const categorized = {
   ]
 };
 
-function flattenCategories(obj){
-  const out=[];
-  for(const cat in obj){
-    obj[cat].forEach(v=>out.push({...v,category:cat}));
-  }
-  return out;
-}
+function flattenCategories(obj){const out=[];for(const cat in obj){obj[cat].forEach(v=>out.push({...v,category:cat}));}return out;}
 let flat=flattenCategories(categorized);
 
 const videoListArea=document.getElementById('videoListArea');
@@ -136,58 +130,12 @@ const videoDesc=document.getElementById('videoDesc');
 const categorizeToggle=document.getElementById('categorizeToggle');
 const darkToggle=document.getElementById('darkToggle');
 
-function extractID(url){
-  if(!url) return '';
-  url=String(url).trim();
-  let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  return m&&m[1]?m[1]:url.split('?')[0];
-}
+function extractID(url){if(!url)return '';url=String(url).trim();let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);return m&&m[1]?m[1]:url.split('?')[0];}
+function makeThumb(id,title,onClick){const div=document.createElement('div');div.className='thumb';const img=document.createElement('img');img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;const t=document.createElement('div');t.className='t';t.textContent=title;div.appendChild(img);div.appendChild(t);div.onclick=onClick;return div;}
 
-function makeThumb(id,title,onClick){
-  const div=document.createElement('div');
-  div.className='thumb';
-  const img=document.createElement('img');
-  img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  const t=document.createElement('div');
-  t.className='t';
-  t.textContent=title;
-  div.appendChild(img);
-  div.appendChild(t);
-  div.onclick=onClick;
-  return div;
-}
+function renderCategorized(container){container.innerHTML='';for(const cat in categorized){const section=document.createElement('div');section.className='category';const h=document.createElement('div');h.className='cat-title';h.textContent=cat;section.appendChild(h);const g=document.createElement('div');g.className='grid';categorized[cat].forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));});section.appendChild(g);container.appendChild(section);}}
 
-function renderCategorized(container){
-  container.innerHTML='';
-  for(const cat in categorized){
-    const section=document.createElement('div');
-    section.className='category';
-    const h=document.createElement('div');
-    h.className='cat-title';
-    h.textContent=cat;
-    section.appendChild(h);
-    const g=document.createElement('div');
-    g.className='grid';
-    categorized[cat].forEach(item=>{
-      const id=extractID(item.url);
-      g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));
-    });
-    section.appendChild(g);
-    container.appendChild(section);
-  }
-}
-
-function renderRandom(container){
-  container.innerHTML='';
-  const arr=[...flat].sort(()=>Math.random()-0.5);
-  const g=document.createElement('div');
-  g.className='grid';
-  arr.forEach(item=>{
-    const id=extractID(item.url);
-    g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));
-  });
-  container.appendChild(g);
-}
+function renderRandom(container){container.innerHTML='';const arr=[...flat].sort(()=>Math.random()-0.5);const g=document.createElement('div');g.className='grid';arr.forEach(item=>{const id=extractID(item.url);g.appendChild(makeThumb(id,item.title,()=>openWatchView(id)));});container.appendChild(g);}
 
 function openWatchView(id){
   watchView.style.display='flex';
