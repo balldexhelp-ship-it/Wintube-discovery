@@ -5,148 +5,145 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WinTube Discovery</title>
 <style>
-  :root{
-    --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
-  }
-  body{
-    margin:0;
-    font-family: Verdana;
-    font-weight: bold;
-    background:var(--bg);
-    color:var(--fg);
-    transition:background .18s,color .18s;
-  }
-  body.dark{
-    --bg:#0f1113;
-    --fg:#eaeaea;
-    --card:#1f1f22;
-  }
-  .topbar{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:12px 18px;
-    background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
-    color:#fff;
-    z-index:30;
-  }
-  .controls{
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .controls label{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:14px;
-  }
-  .container{
-    max-width:1200px;
-    margin:86px auto 40px;
-    padding:0 16px;
-  }
-  .player-wrap{
-    background:var(--card);
-    border-radius:10px;
-    padding:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-    margin-bottom:18px;
-  }
-  #player{
-    width:100%;
-    aspect-ratio:16/9;
-    border-radius:8px;
-    border:0;
-  }
-  .channel-bar{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-top:8px;
-    background:var(--card);
-    padding:8px 12px;
-    border-radius:8px;
-    box-shadow:0 4px 10px rgba(0,0,0,.05);
-  }
-  .channel-bar img{
-    border-radius:50%;
-    width:48px;
-    height:48px;
-    object-fit:cover;
-  }
-  .channel-info{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-  }
-  .channel-name{
-    font-size:14px;
-  }
-  .video-views{
-    font-size:12px;
-    color:rgba(0,0,0,.6);
-  }
-  .video-desc{
-    font-size:13px;
-    color:rgba(0,0,0,.8);
-    margin-top:4px;
-    max-height:48px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  body.dark .video-views{color:rgba(255,255,255,.6);}
-  body.dark .video-desc{color:rgba(255,255,255,.8);}
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-  }
-  .category{
-    margin:8px 0;
-  }
-  .cat-title{
-    margin:10px 0 6px;
-    font-weight:bold;
-  }
-  .thumb{
-    background:var(--card);
-    border-radius:8px;
-    overflow:hidden;
-    cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    box-shadow:0 6px 14px rgba(0,0,0,.06);
-    transition:transform .12s;
-  }
-  .thumb:hover{
-    transform:scale(1.03);
-  }
-  .thumb img{
-    width:100%;
-    height:auto;
-    display:block;
-    aspect-ratio:16/9;
-    object-fit:cover;
-  }
-  .thumb .t{
-    padding:8px;
-    font-size:13px;
-    color:var(--fg);
-  }
-  body.dark .thumb .t{
-    color:var(--fg);
-  }
-  @media (max-width:600px){
-    .topbar{padding:10px}
-    .controls label{font-size:13px}
-  }
+:root{
+  --bg:#ffffff; --fg:#111; --card:#f1f1f1; --accent-start:#000A61; --accent-end:#00129B;
+}
+body{
+  margin:0;
+  font-family: Verdana;
+  font-weight: bold;
+  background:var(--bg);
+  color:var(--fg);
+  transition:background .18s,color .18s;
+}
+body.dark{
+  --bg:#0f1113;
+  --fg:#eaeaea;
+  --card:#1f1f22;
+}
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+  color:#fff;
+  z-index:30;
+}
+.controls{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.controls label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  font-size:14px;
+}
+.container{
+  max-width:1200px;
+  margin:86px auto 40px;
+  padding:0 16px;
+}
+.player-wrap{
+  background:var(--card);
+  border-radius:10px;
+  padding:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  margin-bottom:18px;
+}
+#player{
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:8px;
+  border:0;
+}
+.channel-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:8px;
+  background:var(--card);
+  padding:8px 12px;
+  border-radius:8px;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+}
+.channel-bar img{
+  border-radius:50%;
+  width:48px;
+  height:48px;
+  object-fit:cover;
+}
+.channel-info{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.channel-name{
+  font-size:14px;
+  font-weight:bold;
+}
+.video-views{
+  font-size:12px;
+  color:rgba(0,0,0,.6);
+}
+.video-desc{
+  font-size:13px;
+  color:rgba(0,0,0,.8);
+  margin-top:4px;
+  max-height:48px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+body.dark .video-views{color:rgba(255,255,255,.6);}
+body.dark .video-desc{color:rgba(255,255,255,.8);}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.category{
+  margin:8px 0;
+}
+.cat-title{
+  font-weight:bold;
+  margin:10px 0 6px;
+}
+.thumb{
+  background:var(--card);
+  border-radius:8px;
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 6px 14px rgba(0,0,0,.06);
+  transition:transform .12s;
+}
+.thumb:hover{transform:scale(1.03);}
+.thumb img{
+  width:100%;
+  height:auto;
+  display:block;
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+.thumb .t{
+  padding:8px;
+  font-size:13px;
+  color:var(--fg);
+}
+body.dark .thumb .t{color:var(--fg);}
+@media(max-width:600px){
+  .topbar{padding:10px;}
+  .controls label{font-size:13px;}
+  .grid{grid-template-columns:repeat(1,1fr);}
+}
 </style>
 </head>
 <body>
@@ -176,14 +173,15 @@
 </main>
 
 <script>
+const API_KEY = 'AIzaSyA1Xv4cKQjgS6uvAZZ4ysIDBpHWwUWeksA';
+
+// all videos including moved Special and new ones
 const categorized = {
   "Other":[
     {url:"https://youtu.be/Y341HIbHzGs?si=1CAX0VcRObsga4Ol", title:"TWAN 4:3"},
     {url:"https://youtu.be/OLBVr0L7zGo?si=LUCz0f-iS_SpmVgp", title:"TWA Radio Frutiger areo"},
     {url:"https://youtu.be/cM_nJw4BT6Y?si=ryCRCN2UWgSZhFZo", title:"TWA Radio other"},
-    {url:"https://youtu.be/38UahavvNtw?si=pQGyUCvk1XZkwVh-", title:"Windows: Final Update - Part 1 - The Murder"}
-  ],
-  "Special":[
+    {url:"https://youtu.be/38UahavvNtw?si=pQGyUCvk1XZkwVh-", title:"Windows: Final Update - Part 1 - The Murder"},
     {url:"https://youtu.be/XYeG8JHZitU?si=RsYR2FaPUv1FK6Mu", title:"Happy Birthday Windows 7 (Full)"}
   ],
   "TUI":[
@@ -205,80 +203,79 @@ const categorized = {
     {url:"https://youtu.be/jPTauwoWp6U?si=FS0ZhoEUXBL7RZg7", title:"Windows XP’s First days S1 EP 2 - a spiraling vortex"},
     {url:"https://youtu.be/czQb2TeX5bE?si=Vjbb7swDJ8Wehz-Y", title:"Windows XP’s First days S1 E3 - plan after storm"}
   ],
-  "ATTIB":[
-    {url:"https://www.youtube.com/watch?v=39_9qRI-xi0", title:"Windows 8.1 and the Trouble in Bliss - Final Moments - Episode 1"},
-    {url:"https://www.youtube.com/watch?v=148nlKCpA_c", title:"Windows 8.1 and the Trouble in Bliss - “The Journey Up” - Episode 2"},
-    {url:"https://www.youtube.com/watch?v=d3fekcrDwWo", title:"Windows 8.1 and the Trouble in Bliss - Arrival - Part 3"},
-    {url:"https://www.youtube.com/watch?v=Sqb_JbdvQhY", title:"Windows 8.1 and The Trouble in Bliss - Threshold - Part 4"},
-    {url:"https://www.youtube.com/watch?v=xAWrvscgonc", title:"Windows 8.1 and the Trouble in Bliss - The Party - Part 5 REMASTERED!"},
-    {url:"https://www.youtube.com/watch?v=eSpVo39eqqA", title:"Windows 8.1 and the Trouble in Bliss - Exploration - Part 6"},
-    {url:"https://www.youtube.com/watch?v=uvD_3ANQLIg", title:"Windows 8.1 and the Trouble in Bliss - Minions - Part 7"},
-    {url:"https://www.youtube.com/watch?v=GLgFQbA-qyU", title:"Windows 8.1 and the Trouble in Bliss - Reflection - Part 8"},
-    {url:"https://www.youtube.com/watch?v=0o0DVksD6-Y", title:"Windows 8.1 and the Trouble in Bliss - Kernel - Part 9"},
-    {url:"https://www.youtube.com/watch?v=Tb8aMzB7agA", title:"Windows 8.1 and the Trouble in Bliss - Undercover - Part 10"},
-    {url:"https://www.youtube.com/watch?v=qAwGvcqe0kA", title:"Windows 8.1 and the Trouble in Bliss - Escape - Part 11"},
-    {url:"https://www.youtube.com/watch?v=kU8XG7QNng8", title:"Windows 8.1 and the Trouble in Bliss - Reality - Part 12"},
-    {url:"https://www.youtube.com/watch?v=xrRM90jQsgc", title:"ATTIB 13 - The Riverbanks"},
-    {url:"https://www.youtube.com/watch?v=Vy0zIiqAI14", title:"ATTIB 14 - New Beginnings"},
-    {url:"https://www.youtube.com/watch?v=zmwKYHEMcAM", title:"ATTIB 15 - The Door"},
-    {url:"https://www.youtube.com/watch?v=EhHPa0TD61g", title:"ATTIB 16 - Light Speed"},
-    {url:"https://www.youtube.com/watch?v=4yltQI0VzzU", title:"ATTIB 17 - Location Seven"},
-    {url:"https://www.youtube.com/watch?v=rrwMb7DAKa4", title:"ATTIB 18 - Look Around (60fps)"},
-    {url:"https://www.youtube.com/watch?v=UprVAsfquPs", title:"ATTIB 19 - The Good Life"},
-    {url:"https://www.youtube.com/watch?v=sDoa-mzZ8b8", title:"ATTIB 20 - The Other Side of the Sky"},
-    {url:"https://www.youtube.com/watch?v=8LD3usNwqko", title:"ATTIB 21 - Some Place Like Space"}
+  "TWA":[
+    {url:"https://www.youtube.com/watch?v=UQJ27r-omBM","title":"The Windows adventure Part 1"},
+    {url:"https://www.youtube.com/watch?v=Wq_TFe9bFSY","title":"Twa part 2 the Windows adventure."},
+    {url:"https://www.youtube.com/watch?v=8ubYiHpCLN4","title":"Part 3 of TWA"},
+    {url:"https://www.youtube.com/watch?v=FUltB-ev_3U","title":"Part 3B TWA and new intro"},
+    {url:"https://www.youtube.com/watch?v=jXgN_py_HEY","title":"Part 4A TWA credits to @HallowSE6002 for the icon"},
+    {url:"https://www.youtube.com/watch?v=1QeWuVVkrg0","title":"Twa part 4"},
+    {url:"https://www.youtube.com/watch?v=vfEZqzZdj_s","title":"TWA | WAN | part 5A"},
+    {url:"https://www.youtube.com/watch?v=xzueesOqYFg","title":"Twa part 5B"},
+    {url:"https://www.youtube.com/watch?v=nehglfe6nBQ","title":"Twa 6"},
+    {url:"https://www.youtube.com/watch?v=RprZzOTliDM","title":"Twa 7 the party and the aftermath"},
+    {url:"https://www.youtube.com/watch?v=KsqDThabxF8","title":"TWA 8² read the comment section if you want"},
+    {url:"https://www.youtube.com/watch?v=K8VCG4eBnoI","title":"TWA 9 | into the abyss into a strange world"}
   ],
   "WAN Seattle":[
-    {url:"https://www.youtube.com/watch?v=nlkjt1UAp7c", title:"WAN Seattle 12/21/25"},
-    {url:"https://www.youtube.com/watch?v=0ewDmenHk_k", title:"WAN Seattle 12/19/25"},
-    {url:"https://www.youtube.com/watch?v=G5nQJsYLlS8", title:"WAN Seattle 12/17/25"},
-    {url:"https://www.youtube.com/watch?v=fNB7V3zJNgo", title:"WAN Seattle 12/17/25"},
-    {url:"https://www.youtube.com/watch?v=HqpUpndlsnw", title:"WAN Seattle 12/17/25"},
-    {url:"https://www.youtube.com/watch?v=XWfEbEpDtGg", title:"WAN Seattle 12/15/25"},
-    {url:"https://www.youtube.com/watch?v=CQFG4XUcRwA", title:"WAN Seattle 12/14/25"},
-    {url:"https://www.youtube.com/watch?v=GX7nrFiLZlQ", title:"WAN Seattle 12/14/25"},
-    {url:"https://www.youtube.com/watch?v=O8fD-2phLCs", title:"WAN Seattle 11/12/25"},
-    {url:"https://www.youtube.com/watch?v=jveJHL8QNGk", title:"WAN Seattle 10/12/25"},
-    {url:"https://www.youtube.com/watch?v=Ui2R6UMPxb8", title:"WAN Seattle 9/12/25"},
-    {url:"https://www.youtube.com/watch?v=8pYojdtxBIc", title:"WAN Seattle 8/12/25 | Early Show"},
-    {url:"https://www.youtube.com/watch?v=TLgJAao72Hc", title:"WAN Seattle 7/12/25 | TURN THE VOLUME UP!"},
-    {url:"https://www.youtube.com/watch?v=xJeWh1tBlp4", title:"WAN Seattle 612/25 | TURN THE VOLUME UP!"},
-    {url:"https://www.youtube.com/watch?v=8jUNoNoq-DU", title:"WAN Seattle 5/12/25 | TURN THE VOLUME UP!"},
-    {url:"https://www.youtube.com/watch?v=I7nweL_mcl8", title:"WAN Seattle 4/12/25"},
-    {url:"https://www.youtube.com/watch?v=qTSYfdrRqjw", title:"WAN Seattle 3/12/25"},
-    {url:"https://www.youtube.com/watch?v=uWNHqOf4HM4", title:"WAN Seattle 2/12/25"},
-    {url:"https://www.youtube.com/watch?v=BfxJuwaoCrY", title:"WAN Seattle 2/12/25"},
-    {url:"https://www.youtube.com/watch?v=mJUbdk5pC7A", title:"WAN Seattle 2/12/25 Early show"},
-    {url:"https://www.youtube.com/watch?v=24dGU-_zwaU", title:"WAN Seattle 1/12/25"},
-    {url:"https://www.youtube.com/watch?v=hAZJ_AuhiGw", title:"WAN Seattle 1/12/25"},
-    {url:"https://www.youtube.com/watch?v=X1-yByPvcvo", title:"WAN Seattle Early show 12/1/25"},
-    {url:"https://www.youtube.com/watch?v=0Me0gp65IUE", title:"WAN Seattle Early show 12/1/25"},
-    {url:"https://www.youtube.com/watch?v=QYRe0XDA8o0", title:"WAN Seattle"}
+    {url:"https://www.youtube.com/watch?v=nlkjt1UAp7c","title":"WAN Seattle 12/21/25"},
+    {url:"https://www.youtube.com/watch?v=0ewDmenHk_k","title":"WAN Seattle 12/19/25"},
+    {url:"https://www.youtube.com/watch?v=G5nQJsYLlS8","title":"WAN Seattle 12/17/25"},
+    {url:"https://www.youtube.com/watch?v=fNB7V3zJNgo","title":"WAN Seattle 12/17/25"},
+    {url:"https://www.youtube.com/watch?v=HqpUpndlsnw","title":"WAN Seattle 12/17/25"},
+    {url:"https://www.youtube.com/watch?v=XWfEbEpDtGg","title":"WAN Seattle 12/15/25"},
+    {url:"https://www.youtube.com/watch?v=CQFG4XUcRwA","title":"WAN Seattle 12/14/25"},
+    {url:"https://www.youtube.com/watch?v=GX7nrFiLZlQ","title":"WAN Seattle 12/14/25"},
+    {url:"https://www.youtube.com/watch?v=O8fD-2phLCs","title":"WAN Seattle 11/12/25"},
+    {url:"https://www.youtube.com/watch?v=jveJHL8QNGk","title":"WAN Seattle 10/12/25"},
+    {url:"https://www.youtube.com/watch?v=Ui2R6UMPxb8","title":"WAN Seattle 9/12/25"},
+    {url:"https://www.youtube.com/watch?v=8pYojdtxBIc","title":"WAN Seattle 8/12/25 | Early Show"},
+    {url:"https://www.youtube.com/watch?v=TLgJAao72Hc","title":"WAN Seattle 7/12/25 | TURN THE VOLUME UP!"},
+    {url:"https://www.youtube.com/watch?v=xJeWh1tBlp4","title":"WAN Seattle 612/25 | TURN THE VOLUME UP!"},
+    {url:"https://www.youtube.com/watch?v=8jUNoNoq-DU","title":"WAN Seattle 5/12/25 | TURN THE VOLUME UP!"},
+    {url:"https://www.youtube.com/watch?v=I7nweL_mcl8","title":"WAN Seattle 4/12/25"},
+    {url:"https://www.youtube.com/watch?v=qTSYfdrRqjw","title":"WAN Seattle 3/12/25"},
+    {url:"https://www.youtube.com/watch?v=uWNHqOf4HM4","title":"WAN Seattle 2/12/25"},
+    {url:"https://www.youtube.com/watch?v=BfxJuwaoCrY","title":"WAN Seattle 2/12/25"},
+    {url:"https://www.youtube.com/watch?v=mJUbdk5pC7A","title":"WAN Seattle 2/12/25 Early show"},
+    {url:"https://www.youtube.com/watch?v=24dGU-_zwaU","title":"WAN Seattle 1/12/25"},
+    {url:"https://www.youtube.com/watch?v=hAZJ_AuhiGw","title":"WAN Seattle 1/12/25"},
+    {url:"https://www.youtube.com/watch?v=X1-yByPvcvo","title":"WAN Seattle Early show 12/1/25"},
+    {url:"https://www.youtube.com/watch?v=0Me0gp65IUE","title":"WAN Seattle Early show 12/1/25"},
+    {url:"https://www.youtube.com/watch?v=QYRe0XDA8o0","title":"WAN Seattle"}
   ],
-  "TWA":[
-    {url:"https://www.youtube.com/watch?v=UQJ27r-omBM", title:"The Windows adventure Part 1"},
-    {url:"https://www.youtube.com/watch?v=Wq_TFe9bFSY", title:"Twa part 2 the Windows adventure."},
-    {url:"https://www.youtube.com/watch?v=8ubYiHpCLN4", title:"Part 3 of TWA"},
-    {url:"https://www.youtube.com/watch?v=FUltB-ev_3U", title:"Part 3B TWA and new intro"},
-    {url:"https://www.youtube.com/watch?v=jXgN_py_HEY", title:"Part 4A TWA credits to @HallowSE6002 for the icon"},
-    {url:"https://www.youtube.com/watch?v=1QeWuVVkrg0", title:"Twa part 4"},
-    {url:"https://www.youtube.com/watch?v=vfEZqzZdj_s", title:"TWA | WAN | part 5A"},
-    {url:"https://www.youtube.com/watch?v=xzueesOqYFg", title:"Twa part 5B"},
-    {url:"https://www.youtube.com/watch?v=nehglfe6nBQ", title:"Twa 6"},
-    {url:"https://www.youtube.com/watch?v=RprZzOTliDM", title:"Twa 7 the party and the aftermath"},
-    {url:"https://www.youtube.com/watch?v=KsqDThabxF8", title:"TWA 8² read the comment section if you want"},
-    {url:"https://www.youtube.com/watch?v=K8VCG4eBnoI", title:"TWA 9 | into the abyss into a strange world"}
+  "ATTIB":[
+    {url:"https://www.youtube.com/watch?v=39_9qRI-xi0","title":"Windows 8.1 and the Trouble in Bliss - Final Moments - Episode 1"},
+    {url:"https://www.youtube.com/watch?v=148nlKCpA_c","title":"Windows 8.1 and the Trouble in Bliss - “The Journey Up” - Episode 2"},
+    {url:"https://www.youtube.com/watch?v=d3fekcrDwWo","title":"Windows 8.1 and the Trouble in Bliss - Arrival - Part 3"},
+    {url:"https://www.youtube.com/watch?v=Sqb_JbdvQhY","title":"Windows 8.1 and The Trouble in Bliss - Threshold - Part 4"},
+    {url:"https://www.youtube.com/watch?v=xAWrvscgonc","title":"Windows 8.1 and the Trouble in Bliss - The Party - Part 5 REMASTERED!"},
+    {url:"https://www.youtube.com/watch?v=eSpVo39eqqA","title":"Windows 8.1 and the Trouble in Bliss - Exploration - Part 6"},
+    {url:"https://www.youtube.com/watch?v=uvD_3ANQLIg","title":"Windows 8.1 and the Trouble in Bliss - Minions - Part 7"},
+    {url:"https://www.youtube.com/watch?v=GLgFQbA-qyU","title":"Windows 8.1 and the Trouble in Bliss - Reflection - Part 8"},
+    {url:"https://www.youtube.com/watch?v=0o0DVksD6-Y","title":"Windows 8.1 and the Trouble in Bliss - Kernel - Part 9"},
+    {url:"https://www.youtube.com/watch?v=Tb8aMzB7agA","title":"Windows 8.1 and the Trouble in Bliss - Undercover - Part 10"},
+    {url:"https://www.youtube.com/watch?v=qAwGvcqe0kA","title":"Windows 8.1 and the Trouble in Bliss - Escape - Part 11"},
+    {url:"https://www.youtube.com/watch?v=kU8XG7QNng8","title":"Windows 8.1 and the Trouble in Bliss - Reality - Part 12"},
+    {url:"https://www.youtube.com/watch?v=xrRM90jQsgc","title":"ATTIB 13 - The Riverbanks"},
+    {url:"https://www.youtube.com/watch?v=Vy0zIiqAI14","title":"ATTIB 14 - New Beginnings"},
+    {url:"https://www.youtube.com/watch?v=zmwKYHEMcAM","title":"ATTIB 15 - The Door"},
+    {url:"https://www.youtube.com/watch?v=EhHPa0TD61g","title":"ATTIB 16 - Light Speed"},
+    {url:"https://www.youtube.com/watch?v=4yltQI0VzzU","title":"ATTIB 17 - Location Seven"},
+    {url:"https://www.youtube.com/watch?v=rrwMb7DAKa4","title":"ATTIB 18 - Look Around (60fps)"},
+    {url:"https://www.youtube.com/watch?v=UprVAsfquPs","title":"ATTIB 19 - The Good Life"},
+    {url:"https://www.youtube.com/watch?v=sDoa-mzZ8b8","title":"ATTIB 20 - The Other Side of the Sky"},
+    {url:"https://www.youtube.com/watch?v=8LD3usNwqf4","title":"ATTIB 21 - The Final Hours"}
   ]
 };
 
 function flattenCategories(obj){
-  const out = [];
+  const out=[];
   for(const cat of Object.keys(obj)){
-    obj[cat].forEach(v => out.push(Object.assign({}, v, {category:cat})));
+    obj[cat].forEach(v => out.push(Object.assign({}, v,{category:cat})));
   }
   return out;
 }
-
 let flat = flattenCategories(categorized);
 
 function shuffle(a){
@@ -300,39 +297,39 @@ const darkToggle = document.getElementById('darkToggle');
 
 function extractID(url){
   if(!url) return '';
-  url = String(url).trim();
-  let m = url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
-  return m && m[1] ? m[1] : url.split('?')[0];
+  url=String(url).trim();
+  let m=url.match(/(?:v=|\/v\/|youtu\.be\/|embed\/)([A-Za-z0-9_\-]{6,})/);
+  return m && m[1]?m[1]:url.split('?')[0];
 }
 
 function makeThumb(id,title,url){
-  const div = document.createElement('div');
-  div.className = 'thumb';
-  const img = document.createElement('img');
-  img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-  img.alt = title;
-  const t = document.createElement('div');
-  t.className = 't';
-  t.textContent = title;
+  const div=document.createElement('div');
+  div.className='thumb';
+  const img=document.createElement('img');
+  img.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  img.alt=title;
+  const t=document.createElement('div');
+  t.className='t';
+  t.textContent=title;
   div.appendChild(img);
   div.appendChild(t);
-  div.onclick = ()=> loadToPlayer(id,title,url);
+  div.onclick=()=> loadToPlayer(id,title,url);
   return div;
 }
 
 function renderCategorized(){
-  listArea.innerHTML = '';
+  listArea.innerHTML='';
   for(const cat of Object.keys(categorized)){
-    const section = document.createElement('div');
-    section.className = 'category';
-    const h = document.createElement('div');
-    h.className = 'cat-title';
-    h.textContent = cat;
+    const section=document.createElement('div');
+    section.className='category';
+    const h=document.createElement('div');
+    h.className='cat-title';
+    h.textContent=cat;
     section.appendChild(h);
-    const g = document.createElement('div');
-    g.className = 'grid';
+    const g=document.createElement('div');
+    g.className='grid';
     categorized[cat].forEach(item=>{
-      const id = extractID(item.url);
+      const id=extractID(item.url);
       g.appendChild(makeThumb(id,item.title,item.url));
     });
     section.appendChild(g);
@@ -341,42 +338,61 @@ function renderCategorized(){
 }
 
 function renderRandom(){
-  listArea.innerHTML = '';
-  const arr = shuffle(flat.slice());
-  const g = document.createElement('div');
-  g.className = 'grid';
+  listArea.innerHTML='';
+  const arr=shuffle(flat.slice());
+  const g=document.createElement('div');
+  g.className='grid';
   arr.forEach(item=>{
-    const id = extractID(item.url);
+    const id=extractID(item.url);
     g.appendChild(makeThumb(id,item.title,item.url));
   });
   listArea.appendChild(g);
 }
 
-categorizeToggle.addEventListener('change', ()=> render());
-darkToggle.addEventListener('change', e => document.body.classList.toggle('dark', e.target.checked));
+categorizeToggle.addEventListener('change',()=>render());
+darkToggle.addEventListener('change',e=>document.body.classList.toggle('dark',e.target.checked));
 
 async function loadToPlayer(id,title,url){
-  channelName.textContent = title;
-  videoDesc.textContent = 'Loading info...';
-  viewsCount.textContent = '';
-  channelProfile.src = 'https://i.imgur.com/OwphEKv.png';
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  channelName.textContent=title;
+  videoDesc.textContent='';
+  viewsCount.textContent='';
+  channelProfile.src='https://i.imgur.com/OwphEKv.png';
+  player.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+
+  // fetch info in background but don't block title display
+  try{
+    const res=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${API_KEY}`);
+    const data=await res.json();
+    if(data.items && data.items.length){
+      const video=data.items[0];
+      videoDesc.textContent=video.snippet.description||'';
+      viewsCount.textContent=video.statistics && video.statistics.viewCount?parseInt(video.statistics.viewCount).toLocaleString()+' views':'';
+      if(video.snippet.channelId){
+        const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${video.snippet.channelId}&key=${API_KEY}`);
+        const chData=await chRes.json();
+        if(chData.items && chData.items.length){
+          channelProfile.src=chData.items[0].snippet.thumbnails.default.url;
+        }
+      }
+    }
+  }catch(e){
+    console.error(e);
+  }
 }
 
-function render(){
-  categorizeToggle.checked ? renderCategorized() : renderRandom();
-}
+function render(){categorizeToggle.checked?renderCategorized():renderRandom();}
 
 function init(){
   if(flat.length){
-    const first = flat[0];
-    loadToPlayer(extractID(first.url), first.title, first.url);
+    const first=flat[0];
+    loadToPlayer(extractID(first.url),first.title,first.url);
   }
   render();
 }
 
-window.wintube = {render, loadToPlayer, categorized, flat};
+window.wintube={render,loadToPlayer,categorized,flat};
 init();
 </script>
+
 </body>
 </html>
